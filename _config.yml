@@ -1,5 +1,13 @@
-title: Midnight theme
-description: Midnight is a theme for GitHub Pages.
-show_downloads: true
-google_analytics:
-theme: jekyll-theme-midnight
+title: "Srivatsa's Portfolio"
+description: "Welcome to my professional portfolio. Showcasing my projects, skills, and experiences."
+baseurl: "" # leave blank if using root directory
+url: "https://haschwalth00B.github.io" # Replace with your GitHub Pages URL
+
+# Theme
+remote_theme: pages-themes/midnight@v0.2.0
+plugins:
+  - jekyll-remote-theme
+
+# Navigation Links
+header_pages:
+  - index.md
