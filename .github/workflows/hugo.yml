@@ -1,42 +1,30 @@
-name: Deploy Hugo site to GitHub Pages
+name: Deploy Hugo Site
 
 on:
   push:
     branches:
-      - master  # Change to 'main' if your default branch is main
-  workflow_dispatch:
-
-permissions:
-  contents: read
-  pages: write
-  id-token: write
+      - master   # Change to your branch name if different
+  workflow_dispatch: # Allows manual runs
 
 jobs:
-  build:
+  build-and-deploy:
     runs-on: ubuntu-latest
+
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
-      - name: Setup Hugo
-        uses: peaceiris/actions-hugo@v2
+      - name: Setup Hugo & Build
+        uses: chabad360/hugo-actions@v2
         with:
-          hugo-version: 'latest'
+          buildPath: ./public
+          args: --gc --minify --cleanDestinationDir
+          hugoVersion: latest   # You can set e.g. 0.126.1
 
-      - name: Build the site
-        run: hugo --gc --minify
-
-      - name: Upload Pages Artifact
-        uses: actions/upload-pages-artifact@v2
-        with:
-          path: ./public
-
-  deploy:
-    needs: build
-    runs-on: ubuntu-latest
-    environment:
-      name: github-pages
-    steps:
-      - name: Deploy to GitHub Pages
-        id: deployment
-        uses: actions/deploy-pages@v3
+      - name: Deploy site to GitHub Pages
+        uses: reuixiy/hugo-deploy@v1
+        env:
+          DEPLOY_REPO: ${{ github.repository }} # repo name in user/repo format
+          DEPLOY_BRANCH: gh-pages               # branch to deploy to
+          DEPLOY_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          BUILD_DIR: public                     # matches Hugo's buildPath above
