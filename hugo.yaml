@@ -133,7 +133,7 @@ params:
   # Hero
   hero:
     enable: true
-    intro: "Hello, myself"
+    intro: "Hello, my$self"
     title: "Srivatsa."
     subtitle: "I do stuff"
     content: "An enthusiastic 2nd year BCA student deeply engaged in homelab projects, I love tinkering with operating systems, networks, and self-hosting solutions—constantly exploring new tech to build, break, and optimize everything I touch."
