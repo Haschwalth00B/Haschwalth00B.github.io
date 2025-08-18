@@ -2,16 +2,16 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Srivatsa&#39;s Portfolio</title>
-    <link>https://nix-server.taila0274d.ts.net/</link>
+    <link>http://localhost:1313/</link>
     <description>Recent content on Srivatsa&#39;s Portfolio</description>
     <generator>Hugo</generator>
     <language>en-us</language>
-    <atom:link href="https://nix-server.taila0274d.ts.net/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="http://localhost:1313/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Srivatsa</title>
-      <link>https://nix-server.taila0274d.ts.net/blogs/</link>
+      <link>http://localhost:1313/blogs/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      <guid>https://nix-server.taila0274d.ts.net/blogs/</guid>
+      <guid>http://localhost:1313/blogs/</guid>
       <description>&lt;h1 id=&#34;srivatsa&#34;&gt;Srivatsa&lt;/h1&gt;&#xA;&lt;p&gt;&lt;strong&gt;Student | Home Lab Enthusiast | Exploring Cybersecurity &amp;amp; Cloud&lt;/strong&gt;&lt;/p&gt;&#xA;&lt;hr&gt;&#xA;&lt;h2 id=&#34;about-me&#34;&gt;About Me&lt;/h2&gt;&#xA;&lt;p&gt;Hello! I’m Srivatsa, currently a second-year BCA student with a growing passion for technology, home lab projects, cybersecurity, and cloud computing. My curiosity has led me to experiment with a variety of operating systems, dive into self-hosting, and automate tasks around my home server.&lt;/p&gt;&#xA;&lt;p&gt;&lt;strong&gt;Skills &amp;amp; Technologies:&lt;/strong&gt;&lt;/p&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;&lt;strong&gt;Linux OS:&lt;/strong&gt; Arch Linux, Debian, Tails, Proxmox VE&lt;/li&gt;&#xA;&lt;li&gt;&lt;strong&gt;Containers &amp;amp; Virtualization:&lt;/strong&gt; Docker (via Portainer), Proxmox VMs&lt;/li&gt;&#xA;&lt;li&gt;&lt;strong&gt;Programming:&lt;/strong&gt; C++, Java, Python&lt;/li&gt;&#xA;&lt;li&gt;&lt;strong&gt;Web &amp;amp; Networking:&lt;/strong&gt; nginx, basic network configuration, Tor hidden services&lt;/li&gt;&#xA;&lt;li&gt;&lt;strong&gt;Automation:&lt;/strong&gt; Learning n8n, basic Bash/Python scripting&lt;/li&gt;&#xA;&lt;li&gt;&lt;strong&gt;Databases:&lt;/strong&gt; Learning MySQL&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;hr&gt;&#xA;&lt;h2 id=&#34;projects--experiments&#34;&gt;Projects &amp;amp; Experiments&lt;/h2&gt;&#xA;&lt;p&gt;While I am still building my public project portfolio, here are a few things I have explored in my free time:&lt;/p&gt;</description>
     </item>
   </channel>
