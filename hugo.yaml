@@ -133,7 +133,7 @@ params:
   # Hero
   hero:
     enable: true
-    intro: "Hello, my$self"
+    intro: "Hello, myself"
     title: "Srivatsa."
     subtitle: "I do stuff"
     content: "An enthusiastic 2nd year BCA student deeply engaged in homelab projects, I love tinkering with operating systems, networks, and self-hosting solutions—constantly exploring new tech to build, break, and optimize everything I touch."
@@ -144,9 +144,9 @@ params:
     button:
       enable: true
       name: "Resume"
-      url: /images/file.svg
+      url: /docs/Srivatsa_S_Poojari_Resume .docx
       download: true
-      newPage: false
+      newPage: true
     socialLinks:
       fontAwesomeIcons:
         - icon: fab fa-github
@@ -163,8 +163,7 @@ params:
     title: "About Me"
     image: "/images/me.JPG"
     content: |-
-      #[example org.](https://example.com)
-      I am a student with a strong interest in home server setups, networking and cloud computing. I have hands-on experience with Linux systems (Arch, Debian, Nixos, Tails, Proxmox), Docker, configuring networks. I enjoy experimenting with technology, from hosting services to setting up automations in my homelab.
+            I am a student with a strong interest in home server setups, networking and cloud computing. I have hands-on experience with Linux systems (Arch, Debian, Nixos, Tails, Proxmox), Docker, configuring networks. I enjoy experimenting with technology, from hosting services to setting up automations in my homelab.
 
     skills:
       enable: true
@@ -276,18 +275,24 @@ params:
           enable: false #true
           name: "My academic record"
           url: "https://example.com"
-      #- title: "High School"
-      # school:
-      #   name: "Thomas Jefferson High School for Science and Technology."
-      #   url: "https://example.org"
-      # GPA: "4.2 out of 5.0"
-      # featuredLink:
-      #   enable: true
-      #   url: "https://example.com"
+      - title: "Pre University"
+        school:
+          name: "Viveka Pre University Colege, Kota"
+          url: "https://kotaviveka.com/"
+        date: "2022 - 2024"
+        GPA: "9.0 out of 10.0"
+        featuredLink:
+          enable: false #true
+          url: "https://example.com"
+      - title: "High School"
+        school:
+          name: "SMS English Medium School, Brahmavar"
+          url: "https://smscbse.org/"
+        GPA: "7.5 out of 10.0"
 
   # Achievements
   achievements:
-    enable: true
+    enable: false #true
     # title: "Custom Name"
     items:
       - title: Google kickstart runner
@@ -309,7 +314,7 @@ params:
 
   # projects
   projects:
-    enable: true
+    enable: false #true
     # title: "Custom Name"
     items:
       - title: Hugo Profile
@@ -377,13 +382,13 @@ params:
       count: 3
       title: Recent Posts
       enable: true
-      disableFeaturedImage: false
+      disableFeaturedImage: true #false
     socialNetworks:
-      github: https://github.com
-      linkedin: https://linkedin.com
-      twitter: https://twitter.com
-      instagram: https://instagram.com
-      facebook: https://facebook.com
+      github: https://github.com/Haschwalth00B
+      linkedin: https://www.linkedin.com/in/srivatsa-poojari-ba8a45319/
+      #twitter: https://twitter.com
+      instagram: https://www.instagram.com/srivatsa_._/
+      #facebook: https://facebook.com
 
   # List pages like blogs and posts
   listPages:
