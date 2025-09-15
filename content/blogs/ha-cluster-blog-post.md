@@ -1,7 +1,7 @@
 ---
 layout: default
 title: High Availability Cluster
-date: 2025-09-15
+date: '2025-09-15'
 ---
 
 # Building a High Availability Cluster
@@ -59,7 +59,7 @@ The unavailability of SSDs for Ceph deployment forced us to focus on core cluste
 
 ## Visual Documentation
 
-![Cluster Setup in Lab](cluster.jpg)
+![Cluster Setup in Lab](/images/cluster.jpg)
 *Our cluster nodes in action, featuring the network infrastructure and management setup*
 
 ## Future Roadmap
