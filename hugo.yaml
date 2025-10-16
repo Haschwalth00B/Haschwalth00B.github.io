@@ -152,7 +152,7 @@ params:
         - icon: fab fa-github
           url: https://github.com/Haschwalth00B
         - icon: fab fa-linkedin
-          url: https://www.linkedin.com/in/srivatsa-poojari-ba8a45319/
+          url: https://www.linkedin.com/in/srivatsa-s-poojari-ba8a45319/
       #customIcons:
         #- icon: /fav.png
           #url: "https://example.com"
@@ -385,7 +385,7 @@ params:
       disableFeaturedImage: true #false
     socialNetworks:
       github: https://github.com/Haschwalth00B
-      linkedin: https://www.linkedin.com/in/srivatsa-poojari-ba8a45319/
+      linkedin: https://www.linkedin.com/in/srivatsa-s-poojari-ba8a45319/
       #twitter: https://twitter.com
       instagram: https://www.instagram.com/srivatsa_._/
       #facebook: https://facebook.com
