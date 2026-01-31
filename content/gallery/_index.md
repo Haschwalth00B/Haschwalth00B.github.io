@@ -1,5 +1,4 @@
 ---
 title: "Gallery"
-type: "gallery"
 ---
 
