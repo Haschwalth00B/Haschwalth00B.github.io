@@ -1,0 +1,185 @@
+@import "tailwindcss";
+
+/* ============================================
+   DESIGN SYSTEM — Dark Glassmorphism Theme
+   ============================================ */
+
+@theme {
+  --color-background: #0a0a0f;
+  --color-surface: #12121a;
+  --color-card: #1a1a24;
+  --color-border: #2a2a3a;
+  --color-foreground: #e4e4e7;
+  --color-muted: #71717a;
+  --color-cyan: #00d9ff;
+  --color-cyan-dim: #00d9ff33;
+  --color-coral: #ff6b6b;
+  --color-gold: #f0a050;
+  --color-green: #4ade80;
+  --font-display: "Inter", system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", "Fira Code", monospace;
+}
+
+@layer base {
+  * {
+    box-sizing: border-box;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    margin: 0;
+    font-family: var(--font-display);
+    background-color: var(--color-background);
+    color: var(--color-foreground);
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  ::selection {
+    background-color: var(--color-cyan);
+    color: var(--color-background);
+  }
+
+  ::-webkit-scrollbar {
+    width: 8px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: var(--color-background);
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: var(--color-border);
+    border-radius: 4px;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: var(--color-cyan);
+  }
+}
+
+/* Glass card utility */
+.glass {
+  background: rgba(26, 26, 36, 0.6);
+  backdrop-filter: blur(12px);
+  border: 1px solid var(--color-border);
+}
+
+.glass-hover:hover {
+  background: rgba(26, 26, 36, 0.8);
+  border-color: var(--color-cyan);
+}
+
+/* Gradient text */
+.gradient-text {
+  background: linear-gradient(135deg, var(--color-cyan) 0%, var(--color-coral) 50%, var(--color-gold) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Blog markdown styles */
+.prose {
+  color: var(--color-foreground);
+  line-height: 1.8;
+}
+
+.prose h1,
+.prose h2,
+.prose h3 {
+  color: var(--color-foreground);
+  font-weight: 700;
+  margin-top: 2em;
+  margin-bottom: 0.5em;
+}
+
+.prose h1 {
+  font-size: 2rem;
+}
+
+.prose h2 {
+  font-size: 1.5rem;
+}
+
+.prose h3 {
+  font-size: 1.25rem;
+}
+
+.prose p {
+  margin-bottom: 1.2em;
+}
+
+.prose a {
+  color: var(--color-cyan);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.prose a:hover {
+  opacity: 0.8;
+}
+
+.prose code {
+  background: var(--color-surface);
+  padding: 0.2em 0.4em;
+  border-radius: 4px;
+  font-family: var(--font-mono);
+  font-size: 0.875em;
+}
+
+.prose pre {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: 8px;
+  padding: 1em;
+  overflow-x: auto;
+  margin: 1.5em 0;
+}
+
+.prose pre code {
+  background: none;
+  padding: 0;
+}
+
+.prose ul,
+.prose ol {
+  padding-left: 1.5em;
+  margin-bottom: 1.2em;
+}
+
+.prose li {
+  margin-bottom: 0.5em;
+}
+
+.prose strong {
+  color: var(--color-foreground);
+  font-weight: 600;
+}
+
+.prose em {
+  color: var(--color-muted);
+}
+
+.prose blockquote {
+  border-left: 3px solid var(--color-cyan);
+  padding-left: 1em;
+  margin: 1.5em 0;
+  color: var(--color-muted);
+  font-style: italic;
+}
+
+.prose img {
+  border-radius: 8px;
+  margin: 1.5em 0;
+  max-width: 100%;
+}
+
+.prose hr {
+  border: none;
+  border-top: 1px solid var(--color-border);
+  margin: 2em 0;
+}
