@@ -27,7 +27,7 @@ export const siteData = {
         ],
         bio: 'BCA student passionate about homelabs, networking, and infrastructure. I learn by building things from the ground up and solving real-world problems.',
         // Set to true and place your PDF at public/resume/Srivatsa_S_Poojari_Resume.pdf
-        hasResume: True,
+        hasResume: true,
         resumeUrl: '/resume/Srivatsa_S_Poojari_Resume.pdf',
     },
 
