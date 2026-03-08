@@ -11,6 +11,7 @@ export default function Hero() {
     const [text, setText] = useState('');
     const [deleting, setDeleting] = useState(false);
 
+
     useEffect(() => {
         const target = phrases[phraseIdx];
         const speed = deleting ? 30 : 70;
@@ -43,6 +44,7 @@ export default function Hero() {
                 }}
                 transition={{ duration: 10, repeat: Infinity, ease: 'linear' }}
                 className="absolute inset-0"
+
             />
 
             {/* Grid overlay */}
@@ -75,6 +77,7 @@ export default function Hero() {
                     <span className="gradient-text">{siteData.hero.displayName}</span>
                 </motion.h1>
 
+
                 {/* Subtitle */}
                 <motion.p
                     initial={{ opacity: 0 }}
@@ -86,6 +89,7 @@ export default function Hero() {
                 </motion.p>
 
                 {/* Typewriter */}
+
                 <motion.div
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
@@ -104,33 +108,38 @@ export default function Hero() {
                     className="text-muted max-w-2xl mx-auto mb-10 text-lg"
                 >
                     {siteData.hero.bio}
+
                 </motion.p>
 
-                {/* Resume download button */}
-                <motion.div
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 1.1 }}
-                    className="flex justify-center mb-10"
-                >
-                    <motion.a
-                        href="/resume/Srivatsa_S_Poojari_Resume.pdf"
-                        download
-                        className="inline-flex items-center gap-2 px-6 py-3 bg-cyan text-background font-bold rounded-sm hover:bg-cyan/90 transition-all duration-300 group"
-                        whileHover={{ scale: 1.03 }}
-                        whileTap={{ scale: 0.97 }}
+                {/* Resume download button — only shown when hasResume is true */}
+                {siteData.hero.hasResume && (
+                    <motion.div
+
+                        initial={{ opacity: 0, y: 20 }}
+
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ delay: 1.1 }}
+                        className="flex justify-center mb-10"
                     >
-                        <Download className="w-5 h-5" />
-                        Download Resume
-                        <span className="group-hover:translate-y-0.5 transition-transform duration-300">↓</span>
-                    </motion.a>
-                </motion.div>
+                        <motion.a
+                            href={siteData.hero.resumeUrl}
+                            download
+                            className="inline-flex items-center gap-2 px-6 py-3 bg-cyan text-background font-bold rounded-sm hover:bg-cyan/90 transition-all duration-300 group"
+                            whileHover={{ scale: 1.03 }}
+                            whileTap={{ scale: 0.97 }}
+                        >
+                            <Download className="w-5 h-5" />
+                            Download Resume
+                            <span className="group-hover:translate-y-0.5 transition-transform duration-300">↓</span>
+                        </motion.a>
+                    </motion.div>
+                )}
 
                 {/* Social icons */}
                 <motion.div
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 1.2 }}
+                    transition={{ delay: siteData.hero.hasResume ? 1.2 : 1.1 }}
                     className="flex justify-center gap-4 mb-12"
                 >
                     {siteData.socials.map(s => {
@@ -157,6 +166,7 @@ export default function Hero() {
                     onClick={() => document.getElementById('about')?.scrollIntoView({ behavior: 'smooth' })}
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1, y: [0, 8, 0] }}
+
                     transition={{ delay: 1.5, y: { duration: 2, repeat: Infinity } }}
                     className="text-muted hover:text-cyan transition-colors"
                 >

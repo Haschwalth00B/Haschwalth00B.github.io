@@ -11,6 +11,7 @@ export const siteData = {
     description: 'BCA student passionate about homelabbing, self-hosting, and open source. I learn by building things.',
     url: 'https://haschwalth00b.github.io',
     location: 'Udupi, Karnataka',
+
     timezone: 'IST (UTC+5:30)',
 
     // --- Hero ---
@@ -19,20 +20,22 @@ export const siteData = {
         displayName: 'Srivatsa.',
         subtitle: '2nd Year BCA Student | Homelab Enthusiast | System Tinkerer',
         typingPhrases: [
-            'I build systems',
-            'I break things (intentionally)',
-            'I optimize networks',
+            'I build infrastructure',
+            'I configure networks',
+            'I optimize systems',
             'I self-host everything',
         ],
-        bio: "BCA student obsessed with homelabs, networking, and making servers do things they probably shouldn't. I believe in learning by breaking things—then fixing them better.",
-        resumeUrl: '/resume/',
+        bio: 'BCA student passionate about homelabs, networking, and infrastructure. I learn by building things from the ground up and solving real-world problems.',
+        // Set to true and place your PDF at public/resume/Srivatsa_S_Poojari_Resume.pdf
+        hasResume: false,
+        resumeUrl: '/resume/Srivatsa_S_Poojari_Resume.pdf',
     },
 
     // --- About ---
     about: {
         bio: "I'm Srivatsa, a second-year BCA student with a growing passion for technology, home lab projects, cybersecurity, and cloud computing. My curiosity has led me to experiment with a variety of operating systems, dive into self-hosting, and automate tasks around my home server. I have hands-on experience with Linux systems (Arch, Debian, NixOS, Tails, Proxmox), Docker, and network configuration.",
-        philosophy: 'break things intentionally, learn why they broke, then build them back better',
-        originStory: "That innocent question led me down a rabbit hole of homelabs, networking equipment, and countless hours of documentation diving. Now I run my own infrastructure, self-host services that most people use the cloud for, and genuinely enjoy troubleshooting network issues at 2 AM.",
+        philosophy: 'understand the system deeply, identify the root cause, then engineer a better solution',
+        originStory: "Curiosity about how things work under the hood led me into the world of homelabs, networking, and self-hosted infrastructure. I now run my own homelab, host services independently, and enjoy working through infrastructure challenges that push me to learn something new.",
         currently: [
             { label: '📖 Reading', value: 'System Design Fundamentals' },
             { label: '🔧 Building', value: 'High-availability homelab cluster' },
@@ -53,6 +56,7 @@ export const siteData = {
         { name: 'Email', url: 'mailto:srivatsapoojary@gmail.com', icon: 'mail' },
         { name: 'Instagram', url: 'https://www.instagram.com/srivatsa_._/', icon: 'instagram' },
         { name: 'Letterboxd', url: 'https://letterboxd.com/Srivatsa2580/', icon: 'film' },
+
     ],
 
     // --- Education ---
@@ -71,6 +75,7 @@ export const siteData = {
             period: '2022 – 2024',
             gpa: '9.0 / 10.0',
             description: 'Higher secondary education with science stream.',
+
             url: 'https://kotaviveka.com/',
         },
         {
@@ -86,10 +91,10 @@ export const siteData = {
     // --- Experience ---
     experience: [
         {
-            title: 'Self-Taught & Hands-On',
+            title: 'Self-Directed Projects & Research',
             company: 'Independent',
             period: 'Ongoing',
-            description: 'Building and managing a personal homelab, contributing to open source projects, and continuously experimenting with enterprise-grade infrastructure and automation on self-owned hardware.',
+            description: 'Building and managing a personal homelab, exploring open source projects, and working with enterprise-grade infrastructure and automation on self-owned hardware.',
             responsibilities: [
                 'Running multiple Docker containers to self-host services',
                 'Configuring network infrastructure with pfSense and managed switches',
@@ -111,6 +116,7 @@ export const siteData = {
             featured: true,
         },
         {
+
             title: 'High-Availability Proxmox Cluster',
             description: 'Designed a virtualized HA environment simulating enterprise-grade infrastructure with live VM migration, failover testing, and tuned resource allocation across 4 physical nodes.',
             tags: ['Proxmox', 'Virtualization', 'Clustering', 'Chrony'],
@@ -128,11 +134,12 @@ export const siteData = {
         },
         {
             title: 'Tor Hidden Service',
-            description: 'Set up a personal website accessible via the dark web using Nginx and Tor, exploring onion routing and anonymous hosting.',
+            description: 'Set up a personal website accessible via the Tor network using Nginx and Tor, exploring onion routing and anonymous hosting.',
             tags: ['Tor', 'Nginx', 'Security', 'Linux'],
             category: 'Security',
             status: 'Completed',
             featured: false,
+
         },
         {
             title: 'Automation & Scripting',
@@ -163,6 +170,7 @@ export const siteData = {
             items: ['pfSense', 'Pi-hole', 'Tor', 'WireGuard', 'VLANs'],
         },
         {
+
             group: 'Operating Systems',
             items: ['Arch Linux', 'Debian', 'NixOS', 'Tails', 'Proxmox VE'],
         },
@@ -183,6 +191,7 @@ export const siteData = {
         description: "Have a project idea, want to collaborate, or just chat about homelabs? I'm always excited to connect with fellow tech enthusiasts.",
         responseTime: 'I typically respond within 24-48 hours',
     },
+
 
     // --- Navigation ---
     nav: [
