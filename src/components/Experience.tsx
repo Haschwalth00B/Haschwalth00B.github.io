@@ -8,7 +8,7 @@ export default function Experience() {
     const inView = useInView(ref, { once: true, margin: '-80px' });
 
     return (
-        <section id="experience" ref={ref} className="py-16">
+        <section id="experience" ref={ref} className="py-10">
             <div className="max-w-2xl mx-auto px-6">
                 <SectionHeader title="Experience" />
 

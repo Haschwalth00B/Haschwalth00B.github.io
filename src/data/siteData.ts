@@ -135,11 +135,12 @@ export const siteData = {
         },
         {
             title: 'Portfolio Website',
-            description: 'This very website! Built with React, TypeScript, Tailwind CSS, and Framer Motion. Features dark glassmorphism design and markdown blog system.',
+            description: 'This website — built with React, TypeScript, and Tailwind CSS. Minimal dark theme with command palette, markdown blog, and clean editorial layout.',
             tags: ['React', 'TypeScript', 'Tailwind', 'Vite'],
             category: 'Web',
             status: 'Active',
             featured: false,
+            github: 'https://github.com/Haschwalth00B/Haschwalth00B.github.io',
         },
     ],
 
@@ -180,11 +181,10 @@ export const siteData = {
     // --- Navigation ---
     nav: [
         { label: 'Home', href: '#home' },
-        { label: 'About', href: '#about' },
-        { label: 'Education', href: '#education' },
-        { label: 'Experience', href: '#experience' },
-        { label: 'Projects', href: '#projects' },
         { label: 'Skills', href: '#skills' },
+        { label: 'Projects', href: '#projects' },
+        { label: 'Experience', href: '#experience' },
+        { label: 'Education', href: '#education' },
         { label: 'Blog', href: '#blog' },
         { label: 'Contact', href: '#contact' },
     ],

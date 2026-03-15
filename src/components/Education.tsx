@@ -9,7 +9,7 @@ export default function Education() {
     const inView = useInView(ref, { once: true, margin: '-80px' });
 
     return (
-        <section id="education" ref={ref} className="py-16">
+        <section id="education" ref={ref} className="py-10">
             <div className="max-w-2xl mx-auto px-6">
                 <SectionHeader title="Education" />
 

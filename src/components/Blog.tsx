@@ -38,7 +38,7 @@ export default function Blog() {
     const [selected, setSelected] = useState<BlogPost | null>(null);
 
     return (
-        <section id="blog" ref={ref} className="py-16">
+        <section id="blog" ref={ref} className="py-10">
             <div className="max-w-2xl mx-auto px-6">
                 <SectionHeader title="Blog" />
 

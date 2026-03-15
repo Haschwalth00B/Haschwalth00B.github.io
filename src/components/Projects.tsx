@@ -1,5 +1,6 @@
 import { useRef, useState } from 'react';
 import { motion, useInView } from 'framer-motion';
+import { Github } from 'lucide-react';
 import { siteData } from '../data/siteData';
 import SectionHeader from './SectionHeader';
 
@@ -12,7 +13,7 @@ export default function Projects() {
     const filtered = filter === 'All' ? siteData.projects : siteData.projects.filter(p => p.category === filter);
 
     return (
-        <section id="projects" ref={ref} className="py-16">
+        <section id="projects" ref={ref} className="py-10">
             <div className="max-w-2xl mx-auto px-6">
                 <SectionHeader title="Projects" />
 
@@ -52,12 +53,25 @@ export default function Projects() {
 
                             <p className="text-muted text-sm mb-3">{project.description}</p>
 
-                            <div className="flex flex-wrap gap-1.5">
-                                {project.tags.map(tag => (
-                                    <span key={tag} className="px-2 py-0.5 text-xs font-mono rounded text-muted bg-background border border-border">
-                                        {tag}
-                                    </span>
-                                ))}
+                            <div className="flex items-center justify-between">
+                                <div className="flex flex-wrap gap-1.5">
+                                    {project.tags.map(tag => (
+                                        <span key={tag} className="px-2 py-0.5 text-xs font-mono rounded text-muted bg-background border border-border">
+                                            {tag}
+                                        </span>
+                                    ))}
+                                </div>
+                                {'github' in project && (project as any).github && (
+                                    <a
+                                        href={(project as any).github}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        className="text-muted hover:text-accent transition-colors shrink-0"
+                                        title="View on GitHub"
+                                    >
+                                        <Github className="w-4 h-4" />
+                                    </a>
+                                )}
                             </div>
                         </motion.div>
                     ))}

@@ -59,7 +59,7 @@ The unavailability of SSDs for Ceph deployment forced us to focus on core cluste
 
 ## Visual Documentation
 
-![Cluster Setup in Lab](/images/cluster.jpg)
+![Cluster Setup in Lab](/images/cluster.png)
 *Our cluster nodes in action, featuring the network infrastructure and management setup*
 
 ## Future Roadmap

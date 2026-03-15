@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { X, Menu } from 'lucide-react';
+import { X, Menu, Command } from 'lucide-react';
 import { siteData } from '../data/siteData';
 
 export default function Navbar() {
@@ -29,6 +29,10 @@ export default function Navbar() {
         document.querySelector(href)?.scrollIntoView({ behavior: 'smooth' });
     };
 
+    const openCmdPalette = () => {
+        window.dispatchEvent(new KeyboardEvent('keydown', { key: 'k', ctrlKey: true }));
+    };
+
     return (
         <>
             <nav
@@ -47,7 +51,7 @@ export default function Navbar() {
                         </a>
 
                         {/* Desktop nav */}
-                        <div className="hidden md:flex items-center gap-6">
+                        <div className="hidden md:flex items-center gap-5">
                             {siteData.nav.map(item => (
                                 <a
                                     key={item.label}
@@ -59,6 +63,16 @@ export default function Navbar() {
                                     {item.label}
                                 </a>
                             ))}
+
+                            {/* Cmd+K hint */}
+                            <button
+                                onClick={openCmdPalette}
+                                className="flex items-center gap-1 px-2 py-1 text-xs text-muted border border-border rounded hover:border-muted transition-colors"
+                                title="Command palette (Ctrl+K)"
+                            >
+                                <Command className="w-3 h-3" />
+                                <span className="font-mono">K</span>
+                            </button>
                         </div>
 
                         {/* Mobile toggle */}
