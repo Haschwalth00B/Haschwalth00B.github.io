@@ -1,23 +1,21 @@
 @import "tailwindcss";
 
 /* ============================================
-   DESIGN SYSTEM — Dark Glassmorphism Theme
+   DESIGN SYSTEM — Minimal Dark Theme
    ============================================ */
 
 @theme {
-  --color-background: #0a0a0f;
-  --color-surface: #12121a;
-  --color-card: #1a1a24;
-  --color-border: #2a2a3a;
-  --color-foreground: #e4e4e7;
-  --color-muted: #71717a;
-  --color-cyan: #00d9ff;
-  --color-cyan-dim: #00d9ff33;
-  --color-coral: #ff6b6b;
-  --color-gold: #f0a050;
-  --color-green: #4ade80;
-  --font-display: "Inter", system-ui, sans-serif;
-  --font-mono: "JetBrains Mono", "Fira Code", monospace;
+  --color-background: #0d1117;
+  --color-surface: #161b22;
+  --color-card: #1c2128;
+  --color-border: #30363d;
+  --color-foreground: #e6edf3;
+  --color-muted: #7d8590;
+  --color-accent: #58a6ff;
+  --color-accent-dim: rgba(88, 166, 255, 0.15);
+  --color-green: #3fb950;
+  --font-sans: "Inter", system-ui, -apple-system, sans-serif;
+  --font-mono: "JetBrains Mono", "Fira Code", ui-monospace, monospace;
 }
 
 @layer base {
@@ -31,21 +29,21 @@
 
   body {
     margin: 0;
-    font-family: var(--font-display);
+    font-family: var(--font-sans);
     background-color: var(--color-background);
     color: var(--color-foreground);
-    line-height: 1.6;
+    line-height: 1.7;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
   }
 
   ::selection {
-    background-color: var(--color-cyan);
+    background-color: var(--color-accent);
     color: var(--color-background);
   }
 
   ::-webkit-scrollbar {
-    width: 8px;
+    width: 6px;
   }
 
   ::-webkit-scrollbar-track {
@@ -54,32 +52,29 @@
 
   ::-webkit-scrollbar-thumb {
     background: var(--color-border);
-    border-radius: 4px;
+    border-radius: 3px;
   }
 
   ::-webkit-scrollbar-thumb:hover {
-    background: var(--color-cyan);
+    background: var(--color-muted);
   }
 }
 
-/* Glass card utility */
-.glass {
-  background: rgba(26, 26, 36, 0.6);
-  backdrop-filter: blur(12px);
+/* Subtle card style */
+.card {
+  background: var(--color-surface);
   border: 1px solid var(--color-border);
+  border-radius: 8px;
 }
 
-.glass-hover:hover {
-  background: rgba(26, 26, 36, 0.8);
-  border-color: var(--color-cyan);
+.card-hover:hover {
+  border-color: var(--color-muted);
 }
 
-/* Gradient text */
-.gradient-text {
-  background: linear-gradient(135deg, var(--color-cyan) 0%, var(--color-coral) 50%, var(--color-gold) 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
+/* Divider */
+.divider {
+  height: 1px;
+  background: var(--color-border);
 }
 
 /* Blog markdown styles */
@@ -114,7 +109,7 @@
 }
 
 .prose a {
-  color: var(--color-cyan);
+  color: var(--color-accent);
   text-decoration: underline;
   text-underline-offset: 2px;
 }
@@ -165,7 +160,7 @@
 }
 
 .prose blockquote {
-  border-left: 3px solid var(--color-cyan);
+  border-left: 3px solid var(--color-accent);
   padding-left: 1em;
   margin: 1.5em 0;
   color: var(--color-muted);

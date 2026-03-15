@@ -8,7 +8,7 @@ export const siteData = {
     name: 'Srivatsa',
     fullName: 'Srivatsa S Poojari',
     title: 'Srivatsa S Poojari | Portfolio',
-    description: 'BCA student passionate about homelabbing, self-hosting, and open source. I learn by building things.',
+    description: 'BCA student interested in homelabs, self-hosting, and open source.',
     url: 'https://haschwalth00b.github.io',
     location: 'Udupi, Karnataka',
 
@@ -16,16 +16,10 @@ export const siteData = {
 
     // --- Hero ---
     hero: {
-        greeting: 'Hello, myself',
-        displayName: 'Srivatsa.',
-        subtitle: '2nd Year BCA Student | Homelab Enthusiast | System Tinkerer',
-        typingPhrases: [
-            'I build infrastructure',
-            'I configure networks',
-            'I optimize systems',
-            'I self-host everything',
-        ],
-        bio: 'BCA student passionate about homelabs, networking, and infrastructure. I learn by building things from the ground up and solving real-world problems.',
+        greeting: "Hi, I'm",
+        displayName: 'Srivatsa',
+        subtitle: 'BCA Student · Homelab & Infrastructure',
+        bio: 'BCA student interested in homelabs, networking, and infrastructure.',
         // Set to true and place your PDF at public/resume/Srivatsa_S_Poojari_Resume.pdf
         hasResume: true,
         resumeUrl: '/resume/Srivatsa_S_Poojari_Resume.pdf',
@@ -33,19 +27,11 @@ export const siteData = {
 
     // --- About ---
     about: {
-        bio: "I'm Srivatsa, a second-year BCA student with a growing passion for technology, home lab projects, cybersecurity, and cloud computing. My curiosity has led me to experiment with a variety of operating systems, dive into self-hosting, and automate tasks around my home server. I have hands-on experience with Linux systems (Arch, Debian, NixOS, Tails, Proxmox), Docker, and network configuration.",
-        philosophy: 'understand the system deeply, identify the root cause, then engineer a better solution',
-        originStory: "Curiosity about how things work under the hood led me into the world of homelabs, networking, and self-hosted infrastructure. I now run my own homelab, host services independently, and enjoy working through infrastructure challenges that push me to learn something new.",
+        bio: "I'm Srivatsa, a second-year BCA student with an interest in homelabs, self-hosting, and Linux systems. I work with Docker, Proxmox, and network configuration in my personal projects.",
         currently: [
             { label: '📖 Reading', value: 'System Design Fundamentals' },
-            { label: '🔧 Building', value: 'High-availability homelab cluster' },
+            { label: '🔧 Building', value: 'Homelab cluster' },
             { label: '🌱 Learning', value: 'NixOS & Infrastructure as Code' },
-        ],
-        techObsessions: ['Proxmox', 'Docker', 'Linux Administration', 'Networking', 'Self-Hosting'],
-        stats: [
-            { label: 'Years Tinkering', value: '3+' },
-            { label: 'Services Self-Hosted', value: '10+' },
-            { label: 'Linux Distros Tried', value: '8+' },
         ],
     },
 
@@ -66,16 +52,15 @@ export const siteData = {
             degree: 'Bachelor of Computer Applications (BCA)',
             period: '2024 – 2027',
             gpa: '7.9 / 10.0',
-            description: 'Focusing on computer applications, systems programming, and infrastructure.',
+            description: 'Computer applications, systems programming, and infrastructure.',
             url: 'https://nitte.edu.in/nsamfgcn/index.php',
         },
         {
             institution: 'Viveka Pre University College, Kota',
-            degree: 'Pre University (Science)',
+            degree: 'Pre University (Commerce — CEBA)',
             period: '2022 – 2024',
             gpa: '9.0 / 10.0',
-            description: 'Higher secondary education with science stream.',
-
+            description: 'Computer Science, Economics, Business Studies, Accountancy.',
             url: 'https://kotaviveka.com/',
         },
         {
@@ -83,7 +68,7 @@ export const siteData = {
             degree: 'High School',
             period: '',
             gpa: '7.5 / 10.0',
-            description: 'Foundation education.',
+            description: '',
             url: 'https://smscbse.org/',
         },
     ],
@@ -91,16 +76,15 @@ export const siteData = {
     // --- Experience ---
     experience: [
         {
-            title: 'Self-Directed Projects & Research',
+            title: 'Self-Directed Projects',
             company: 'Independent',
             period: 'Ongoing',
-            description: 'Building and managing a personal homelab, exploring open source projects, and working with enterprise-grade infrastructure and automation on self-owned hardware.',
+            description: 'Managing a personal homelab and working with server infrastructure and automation.',
             responsibilities: [
-                'Running multiple Docker containers to self-host services',
-                'Configuring network infrastructure with pfSense and managed switches',
-                'Setting up and managing Proxmox virtualization environment',
-                'Writing Bash scripts for automation, health checks, and backups',
-                'Exploring cybersecurity through Tor hidden service hosting and network hardening',
+                'Running Docker containers to self-host services',
+                'Configuring network infrastructure with pfSense',
+                'Setting up and managing Proxmox virtualization',
+                'Writing Bash scripts for automation and backups',
             ],
         },
     ],
@@ -117,8 +101,8 @@ export const siteData = {
         },
         {
 
-            title: 'High-Availability Proxmox Cluster',
-            description: 'Designed a virtualized HA environment simulating enterprise-grade infrastructure with live VM migration, failover testing, and tuned resource allocation across 4 physical nodes.',
+            title: 'Proxmox Cluster',
+            description: 'Multi-node virtualization setup with live VM migration, failover testing, and resource allocation across physical nodes.',
             tags: ['Proxmox', 'Virtualization', 'Clustering', 'Chrony'],
             category: 'Infrastructure',
             status: 'Completed',
@@ -187,9 +171,9 @@ export const siteData = {
     // --- Contact ---
     contact: {
         email: 'srivatsapoojary@gmail.com',
-        heading: "Let's Connect",
-        description: "Have a project idea, want to collaborate, or just chat about homelabs? I'm always excited to connect with fellow tech enthusiasts.",
-        responseTime: 'I typically respond within 24-48 hours',
+        heading: "Get in Touch",
+        description: "Feel free to reach out for collaborations or questions.",
+        responseTime: 'Usually responds within 24–48 hours',
     },
 
 

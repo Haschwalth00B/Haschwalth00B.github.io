@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Terminal, X, Menu } from 'lucide-react';
+import { X, Menu } from 'lucide-react';
 import { siteData } from '../data/siteData';
 
 export default function Navbar() {
@@ -31,78 +31,46 @@ export default function Navbar() {
 
     return (
         <>
-            <motion.nav
-                initial={{ y: -100 }}
-                animate={{ y: 0 }}
-                transition={{ duration: 0.6, ease: 'easeOut' }}
-                className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${scrolled ? 'glass border-b border-border' : 'bg-transparent'
+            <nav
+                className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${scrolled ? 'bg-background/95 backdrop-blur-sm border-b border-border' : 'bg-transparent'
                     }`}
             >
-                <div className="max-w-7xl mx-auto px-6">
-                    <div className="flex items-center justify-between h-16 md:h-20">
+                <div className="max-w-2xl mx-auto px-6">
+                    <div className="flex items-center justify-between h-14">
                         {/* Logo */}
-                        <motion.a
+                        <a
                             href="#home"
                             onClick={e => { e.preventDefault(); scrollTo('#home'); }}
-                            className="flex items-center gap-2 group"
-                            whileHover={{ scale: 1.02 }}
-                            whileTap={{ scale: 0.98 }}
+                            className="font-bold text-lg tracking-tight hover:text-accent transition-colors"
                         >
-                            <div className="w-10 h-10 border-2 border-cyan flex items-center justify-center group-hover:bg-cyan transition-colors duration-300">
-                                <Terminal className="w-5 h-5 text-cyan group-hover:text-background transition-colors duration-300" />
-                            </div>
-                            <span className="font-bold text-xl tracking-tight hidden sm:block">
-                                {siteData.name}<span className="text-cyan">.</span>
-                            </span>
-                        </motion.a>
+                            {siteData.name}<span className="text-accent">.</span>
+                        </a>
 
                         {/* Desktop nav */}
-                        <div className="hidden md:flex items-center gap-1">
-                            {siteData.nav.map((item, i) => (
-                                <motion.a
+                        <div className="hidden md:flex items-center gap-6">
+                            {siteData.nav.map(item => (
+                                <a
                                     key={item.label}
                                     href={item.href}
                                     onClick={e => { e.preventDefault(); scrollTo(item.href); }}
-                                    initial={{ opacity: 0, y: -20 }}
-                                    animate={{ opacity: 1, y: 0 }}
-                                    transition={{ delay: i * 0.08 }}
-                                    className={`relative px-3 py-2 text-sm font-medium transition-colors duration-300 ${active === item.href.replace('#', '') ? 'text-cyan' : 'text-muted hover:text-foreground'
+                                    className={`text-sm transition-colors duration-200 ${active === item.href.replace('#', '') ? 'text-foreground' : 'text-muted hover:text-foreground'
                                         }`}
                                 >
                                     {item.label}
-                                    {active === item.href.replace('#', '') && (
-                                        <motion.div
-                                            layoutId="activeNav"
-                                            className="absolute bottom-0 left-3 right-3 h-0.5 bg-cyan"
-                                            transition={{ type: 'spring', stiffness: 380, damping: 30 }}
-                                        />
-                                    )}
-                                </motion.a>
+                                </a>
                             ))}
                         </div>
 
-                        {/* CTA + Mobile toggle */}
-                        <div className="flex items-center gap-3">
-                            <motion.a
-                                href="#contact"
-                                onClick={e => { e.preventDefault(); scrollTo('#contact'); }}
-                                className="hidden md:flex items-center gap-2 px-5 py-2.5 bg-cyan text-background font-medium text-sm hover:bg-cyan/90 transition-all duration-300 group rounded-sm"
-                                whileHover={{ scale: 1.02 }}
-                                whileTap={{ scale: 0.98 }}
-                            >
-                                Let's Talk
-                                <span className="group-hover:translate-x-1 transition-transform duration-300">→</span>
-                            </motion.a>
-                            <button
-                                onClick={() => setMobileOpen(!mobileOpen)}
-                                className="md:hidden w-10 h-10 flex items-center justify-center border border-border hover:border-cyan transition-colors duration-300"
-                            >
-                                {mobileOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
-                            </button>
-                        </div>
+                        {/* Mobile toggle */}
+                        <button
+                            onClick={() => setMobileOpen(!mobileOpen)}
+                            className="md:hidden text-muted hover:text-foreground transition-colors"
+                        >
+                            {mobileOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
+                        </button>
                     </div>
                 </div>
-            </motion.nav>
+            </nav>
 
             {/* Mobile menu */}
             <AnimatePresence>
@@ -113,31 +81,22 @@ export default function Navbar() {
                         exit={{ opacity: 0 }}
                         className="fixed inset-0 z-40 md:hidden"
                     >
-                        <div className="absolute inset-0 bg-background/95 backdrop-blur-lg" />
-                        <motion.div
-                            initial={{ x: '100%' }}
-                            animate={{ x: 0 }}
-                            exit={{ x: '100%' }}
-                            transition={{ type: 'spring', damping: 25 }}
-                            className="absolute right-0 top-16 bottom-0 w-full max-w-sm bg-card border-l border-border p-8"
-                        >
-                            <div className="flex flex-col gap-2">
-                                {siteData.nav.map((item, i) => (
-                                    <motion.a
+                        <div className="absolute inset-0 bg-background/98" />
+                        <div className="relative pt-20 px-6">
+                            <div className="flex flex-col gap-1">
+                                {siteData.nav.map(item => (
+                                    <a
                                         key={item.label}
                                         href={item.href}
                                         onClick={e => { e.preventDefault(); scrollTo(item.href); }}
-                                        initial={{ opacity: 0, x: 20 }}
-                                        animate={{ opacity: 1, x: 0 }}
-                                        transition={{ delay: i * 0.08 }}
-                                        className={`text-2xl font-bold py-3 border-b border-border transition-colors duration-300 ${active === item.href.replace('#', '') ? 'text-cyan' : 'text-foreground hover:text-cyan'
+                                        className={`text-lg py-3 border-b border-border transition-colors ${active === item.href.replace('#', '') ? 'text-accent' : 'text-foreground hover:text-accent'
                                             }`}
                                     >
                                         {item.label}
-                                    </motion.a>
+                                    </a>
                                 ))}
                             </div>
-                        </motion.div>
+                        </div>
                     </motion.div>
                 )}
             </AnimatePresence>

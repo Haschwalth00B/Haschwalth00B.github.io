@@ -1,12 +1,10 @@
 import { useRef, useState } from 'react';
 import { motion, useInView, AnimatePresence } from 'framer-motion';
-import { BookOpen, Calendar, ArrowRight, X } from 'lucide-react';
+import { Calendar, ArrowRight, X, BookOpen } from 'lucide-react';
 import Markdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import SectionHeader from './SectionHeader';
 
-// Blog posts are imported statically since Vite doesn't support dynamic fs reads at runtime.
-// To add a new post: import it here and add to the posts array.
 import haClusterRaw from '../../content/blog/ha-cluster-blog-post.md?raw';
 
 interface BlogPost {
@@ -36,43 +34,42 @@ const posts: BlogPost[] = [parseFrontmatter(haClusterRaw)];
 
 export default function Blog() {
     const ref = useRef(null);
-    const inView = useInView(ref, { once: true, margin: '-100px' });
+    const inView = useInView(ref, { once: true, margin: '-80px' });
     const [selected, setSelected] = useState<BlogPost | null>(null);
 
     return (
-        <section id="blog" ref={ref} className="py-24">
-            <div className="max-w-6xl mx-auto px-6">
-                <SectionHeader number="06" title="Blog" />
-                <p className="text-muted mt-2 mb-12 max-w-2xl">
-                    Documenting my technical adventures, tutorials, and learnings about infrastructure and self-hosting.
-                </p>
+        <section id="blog" ref={ref} className="py-16">
+            <div className="max-w-2xl mx-auto px-6">
+                <SectionHeader title="Blog" />
 
                 {posts.length === 0 ? (
-                    <div className="glass rounded-xl p-10 text-center">
-                        <BookOpen className="w-10 h-10 text-muted mx-auto mb-4" />
-                        <p className="text-muted">Blog posts coming soon!</p>
+                    <div className="mt-6 text-center py-10">
+                        <BookOpen className="w-8 h-8 text-muted mx-auto mb-3" />
+                        <p className="text-muted text-sm">Posts coming soon.</p>
                     </div>
                 ) : (
-                    <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <div className="mt-6 space-y-0">
                         {posts.map((post, i) => (
                             <motion.button
                                 key={post.slug}
-                                initial={{ opacity: 0, y: 20 }}
+                                initial={{ opacity: 0, y: 10 }}
                                 animate={inView ? { opacity: 1, y: 0 } : {}}
-                                transition={{ delay: i * 0.1, duration: 0.5 }}
+                                transition={{ delay: i * 0.08, duration: 0.4 }}
                                 onClick={() => setSelected(post)}
-                                className="glass rounded-xl p-6 text-left glass-hover transition-all duration-300 group cursor-pointer"
+                                className="w-full text-left py-4 border-b border-border hover:bg-surface/50 transition-colors group"
                             >
-                                <div className="flex items-center gap-2 text-xs text-muted mb-3">
-                                    <Calendar className="w-3.5 h-3.5" />
+                                <div className="flex items-center gap-2 text-xs text-muted mb-1 font-mono">
+                                    <Calendar className="w-3 h-3" />
                                     {post.date}
                                 </div>
-                                <h3 className="font-bold text-lg mb-3 group-hover:text-cyan transition-colors">{post.title}</h3>
-                                <p className="text-muted text-sm line-clamp-3 mb-4">
+                                <h3 className="font-semibold text-accent group-hover:underline underline-offset-2 mb-1">
+                                    {post.title}
+                                </h3>
+                                <p className="text-muted text-sm line-clamp-2">
                                     {post.content.replace(/^#.*\n*/gm, '').substring(0, 150)}...
                                 </p>
-                                <span className="text-cyan text-sm flex items-center gap-1 group-hover:gap-2 transition-all">
-                                    Read more <ArrowRight className="w-4 h-4" />
+                                <span className="text-accent text-xs flex items-center gap-1 mt-2 group-hover:gap-2 transition-all">
+                                    Read more <ArrowRight className="w-3 h-3" />
                                 </span>
                             </motion.button>
                         ))}
@@ -90,23 +87,23 @@ export default function Blog() {
                         className="fixed inset-0 z-50 flex items-start justify-center p-4 pt-20 overflow-y-auto"
                         onClick={() => setSelected(null)}
                     >
-                        <div className="absolute inset-0 bg-background/90 backdrop-blur-sm" />
+                        <div className="absolute inset-0 bg-background/95" />
                         <motion.div
-                            initial={{ opacity: 0, y: 30, scale: 0.97 }}
-                            animate={{ opacity: 1, y: 0, scale: 1 }}
-                            exit={{ opacity: 0, y: 30, scale: 0.97 }}
+                            initial={{ opacity: 0, y: 20 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            exit={{ opacity: 0, y: 20 }}
                             onClick={e => e.stopPropagation()}
-                            className="relative glass rounded-xl p-8 max-w-3xl w-full mb-20"
+                            className="relative bg-surface border border-border rounded-lg p-8 max-w-3xl w-full mb-20"
                         >
                             <button
                                 onClick={() => setSelected(null)}
-                                className="absolute top-4 right-4 w-8 h-8 rounded-lg flex items-center justify-center hover:bg-surface text-muted hover:text-foreground transition-colors"
+                                className="absolute top-4 right-4 text-muted hover:text-foreground transition-colors"
                             >
                                 <X className="w-5 h-5" />
                             </button>
 
-                            <div className="flex items-center gap-2 text-xs text-muted mb-4">
-                                <Calendar className="w-3.5 h-3.5" />
+                            <div className="flex items-center gap-2 text-xs text-muted mb-4 font-mono">
+                                <Calendar className="w-3 h-3" />
                                 {selected.date}
                             </div>
 
