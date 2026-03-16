@@ -1,4 +1,4 @@
-// ============================================
+;// ============================================
 // SITE DATA — Single Source of Truth
 // ============================================
 // Edit this file to update all personal data across the site.
@@ -8,30 +8,28 @@ export const siteData = {
     name: 'Srivatsa',
     fullName: 'Srivatsa S Poojari',
     title: 'Srivatsa S Poojari | Portfolio',
-    description: 'BCA student interested in homelabs, self-hosting, and open source.',
+    description: 'BCA student building and operating real Linux infrastructure — NixOS home server, self-hosted services, and network engineering.',
     url: 'https://haschwalth00b.github.io',
     location: 'Udupi, Karnataka',
-
     timezone: 'IST (UTC+5:30)',
 
     // --- Hero ---
     hero: {
         greeting: "Hi, I'm",
         displayName: 'Srivatsa',
-        subtitle: 'BCA Student · Homelab & Infrastructure',
-        bio: 'BCA student interested in homelabs, networking, and infrastructure.',
-        // Set to true and place your PDF at public/resume/Srivatsa_S_Poojari_Resume.pdf
+        subtitle: 'BCA Student · Systems & Infrastructure',
+        bio: "Building and operating real Linux infrastructure — NixOS home server, self-hosted services, HA virtualisation, and network engineering. Contributor to nixpkgs.",
         hasResume: true,
         resumeUrl: '/resume/Srivatsa_S_Poojari_Resume.pdf',
     },
 
     // --- About ---
     about: {
-        bio: "I'm Srivatsa, a second-year BCA student with an interest in homelabs, self-hosting, and Linux systems. I work with Docker, Proxmox, and network configuration in my personal projects.",
+        bio: "I'm Srivatsa, a second-year BCA student with a deep interest in Linux systems, self-hosting, and infrastructure engineering. I learn by building real systems — my home server runs NixOS with a fully declarative Flakes config, and I run a Proxmox HA cluster for learning virtualisation. I've also made small contributions to the nixpkgs open-source package repository.",
         currently: [
-            { label: '📖 Reading', value: 'System Design Fundamentals' },
-            { label: '🔧 Building', value: 'Homelab cluster' },
-            { label: '🌱 Learning', value: 'NixOS & Infrastructure as Code' },
+            { label: '📖 Learning', value: 'LTE/5G protocol stack + Python' },
+            { label: '🔧 Operating', value: 'NixOS home server (8+ services)' },
+            { label: '🌱 Contributing', value: 'nixpkgs open-source' },
         ],
     },
 
@@ -42,27 +40,30 @@ export const siteData = {
         { name: 'Email', url: 'mailto:srivatsapoojary@gmail.com', icon: 'mail' },
         { name: 'Instagram', url: 'https://www.instagram.com/srivatsa_._/', icon: 'instagram' },
         { name: 'Letterboxd', url: 'https://letterboxd.com/Srivatsa2580/', icon: 'film' },
-
     ],
 
     // --- Education ---
     education: [
+
         {
             institution: 'Dr. NSAM First Grade College, Nitte',
             degree: 'Bachelor of Computer Applications (BCA)',
-            period: '2024 – 2027',
+            period: '2023 – 2027',
             gpa: '7.9 / 10.0',
-            description: 'Computer applications, systems programming, and infrastructure.',
+            description: 'C/C++, Data Structures, Computer Networks (LTE/5G fundamentals), Operating Systems, Python.',
             url: 'https://nitte.edu.in/nsamfgcn/index.php',
+
         },
         {
             institution: 'Viveka Pre University College, Kota',
             degree: 'Pre University (Commerce — CEBA)',
+
             period: '2022 – 2024',
             gpa: '9.0 / 10.0',
             description: 'Computer Science, Economics, Business Studies, Accountancy.',
             url: 'https://kotaviveka.com/',
         },
+
         {
             institution: 'SMS English Medium School, Brahmavar',
             degree: 'High School',
@@ -71,20 +72,44 @@ export const siteData = {
             description: '',
             url: 'https://smscbse.org/',
         },
+
     ],
 
     // --- Experience ---
     experience: [
         {
-            title: 'Self-Directed Projects',
-            company: 'Independent',
-            period: 'Ongoing',
-            description: 'Managing a personal homelab and working with server infrastructure and automation.',
+            title: 'NixOS Home Server',
+            company: 'Infrastructure Project',
+            period: '2024 – Present',
+            description: 'Fully declarative server configuration using Nix Flakes — every package, service, and system option is version-controlled. Rebuilding from scratch produces an identical system.',
             responsibilities: [
-                'Running Docker containers to self-host services',
-                'Configuring network infrastructure with pfSense',
-                'Setting up and managing Proxmox virtualization',
-                'Writing Bash scripts for automation and backups',
+                '14 purpose-built NixOS modules managing boot, networking, security, power, monitoring, and Docker',
+                'Home Manager integration declaring the full user environment (shell, editor, tools) alongside system config',
+                'Automated weekly garbage collection, system upgrades, and Docker pruning via NixOS options',
+                'Contributed upstream to nixpkgs — PR #498949 merged into NixOS/nixpkgs master',
+            ],
+        },
+        {
+            title: 'Self-Hosted Service Stack',
+            company: 'Homelab Project',
+            period: '2023 – Present',
+            description: 'Operating 8+ containerised services in production via Docker Compose: Immich (photo management with ML inference), Home Assistant, n8n workflow automation, Pi-hole DNS, and more.',
+            responsibilities: [
+                'Nginx reverse proxy with automated Let\'s Encrypt TLS — HTTPS for all internal services',
+                'Tailscale overlay VPN for secure remote access with zero open ports on the public internet',
+                'Samba + Avahi mDNS for local file sharing and hostname discovery (nix-server.local)',
+                'Custom Bash monitoring scripts and systemd timers; Netdata real-time metrics dashboard',
+            ],
+        },
+        {
+            title: 'Proxmox HA Virtualisation Cluster',
+            company: 'Lab Project',
+            period: '2023 – Present',
+            description: 'Multi-node Proxmox VE cluster with live VM migration, failover testing, and shared storage evaluation.',
+            responsibilities: [
+                'Induced node failures and validated automatic failover behaviour under simulated outages',
+                'Evaluated Ceph vs NFS backends for clustered VM disk I/O; documented latency tradeoffs',
+                'Chrony NTP synchronisation across nodes — critical for preventing split-brain scenarios',
             ],
         },
     ],
@@ -92,33 +117,52 @@ export const siteData = {
     // --- Projects ---
     projects: [
         {
-            title: 'Homelab & Self-Hosted Infrastructure',
-            description: 'Deployed and managed containerized services on self-owned hardware with Nginx Proxy Manager, Let\'s Encrypt SSL, reverse proxy routing, and automated monitoring via shell scripts.',
-            tags: ['Docker', 'Nginx', 'Linux', 'Bash'],
+            title: 'NixOS Declarative Home Server',
+            description: 'Fully declarative NixOS server configuration using Nix Flakes and Home Manager. Every package, service, user setting, and system option is version-controlled — 14 purpose-built modules covering boot, networking, security, power management, monitoring, and Docker. Rebuilding from scratch produces an identical system every time.',
+            tags: ['NixOS', 'Nix Flakes', 'Home Manager', 'Linux', 'IaC'],
+            category: 'Infrastructure',
+            status: 'Active',
+            featured: true,
+
+            github: 'https://github.com/Haschwalth00B/nixos-configuration-files',
+        },
+        {
+            title: 'Self-Hosted Service Infrastructure',
+            description: 'Operating 8+ containerised services in production via Docker Compose on NixOS: Immich (AI photo management with ML inference), Home Assistant, n8n workflow automation, Pi-hole DNS filtering, Homepage dashboard, and more. Nginx reverse proxy with automated TLS, Tailscale VPN, and Samba for local file sharing.',
+            tags: ['Docker', 'Nginx', 'Tailscale', 'Bash', 'Linux'],
+            category: 'Infrastructure',
+
+            status: 'Active',
+            featured: true,
+        },
+        {
+            title: 'Proxmox HA Virtualisation Cluster',
+            description: 'Multi-node Proxmox VE cluster with live VM migration, automatic failover under induced hardware failures, and shared storage evaluation (Ceph vs NFS). Chrony NTP sync across nodes to prevent split-brain scenarios.',
+            tags: ['Proxmox', 'QEMU/KVM', 'Clustering', 'Chrony'],
             category: 'Infrastructure',
             status: 'Active',
             featured: true,
         },
         {
-
-            title: 'Proxmox Cluster',
-            description: 'Multi-node virtualization setup with live VM migration, failover testing, and resource allocation across physical nodes.',
-            tags: ['Proxmox', 'Virtualization', 'Clustering', 'Chrony'],
-            category: 'Infrastructure',
-            status: 'Completed',
-            featured: true,
-        },
-        {
             title: 'Network Security & DNS Filtering',
-            description: 'Deployed Pi-hole for network-wide DNS filtering, configured pfSense firewall rules and VPN tunnels, and hardened remote access with certificate-based authentication.',
-            tags: ['pfSense', 'Pi-hole', 'Networking', 'Security'],
+            description: 'Pi-hole recursive DNS resolver reducing unwanted queries by ~40% across all LAN clients. pfSense firewall with least-privilege segmentation between LAN, IoT VLAN, and DMZ zones. Python log analysis for anomalous DNS traffic detection.',
+            tags: ['pfSense', 'Pi-hole', 'Python', 'Networking'],
             category: 'Networking',
             status: 'Active',
             featured: true,
         },
         {
+            title: 'Neovim Configuration',
+            description: 'Personal Neovim setup managed with lazy.nvim — LSP via Mason, Telescope fuzzy finder, Harpoon file navigation, Treesitter syntax highlighting across 20+ languages. Symlinked into the NixOS system via Home Manager.',
+            tags: ['Neovim', 'Lua', 'LSP', 'NixOS'],
+            category: 'Tooling',
+            status: 'Active',
+            featured: false,
+            github: 'https://github.com/Haschwalth00B/my-dot-files',
+        },
+        {
             title: 'Tor Hidden Service',
-            description: 'Set up a personal website accessible via the Tor network using Nginx and Tor, exploring onion routing and anonymous hosting.',
+            description: 'Personal site accessible via the Tor network — hands-on study of onion routing, anonymisation layers, and Nginx configuration for anonymous hosting.',
             tags: ['Tor', 'Nginx', 'Security', 'Linux'],
             category: 'Security',
             status: 'Completed',
@@ -126,16 +170,16 @@ export const siteData = {
 
         },
         {
-            title: 'Automation & Scripting',
-            description: 'Wrote Bash scripts automating health checks, log rotation, and backup routines; scheduled periodic reporting with cron and systemd timers.',
-            tags: ['Bash', 'Linux', 'Automation', 'Cron'],
+            title: 'Infrastructure Automation Scripts',
+            description: 'Library of Bash utilities covering service health checks, disk usage alerting, automated backups, log rotation, and systemd service recovery. Scheduled via cron and systemd timers.',
+            tags: ['Bash', 'Linux', 'Automation', 'systemd'],
             category: 'Automation',
             status: 'Active',
             featured: false,
         },
         {
             title: 'Portfolio Website',
-            description: 'This website — built with React, TypeScript, and Tailwind CSS. Minimal dark theme with command palette, markdown blog, and clean editorial layout.',
+            description: 'This site — React 19, TypeScript, Tailwind CSS v4, Vite, Framer Motion. Command palette (Ctrl+K), Markdown blog with frontmatter parsing, scroll progress, mobile-responsive.',
             tags: ['React', 'TypeScript', 'Tailwind', 'Vite'],
             category: 'Web',
             status: 'Active',
@@ -147,36 +191,39 @@ export const siteData = {
     // --- Skills ---
     skills: [
         {
-            group: 'Infrastructure',
-            items: ['Proxmox', 'Docker', 'Nginx', 'Portainer'],
+            group: 'Infrastructure & IaC',
+            items: ['NixOS', 'Nix Flakes', 'Home Manager', 'Proxmox', 'Docker', 'Nginx', 'Portainer'],
         },
         {
             group: 'Networking & Security',
-            items: ['pfSense', 'Pi-hole', 'Tor', 'WireGuard', 'VLANs'],
+            items: ['pfSense', 'Pi-hole', 'Tailscale', 'WireGuard', 'VLANs', 'DNS', 'Tor'],
         },
         {
-
             group: 'Operating Systems',
-            items: ['Arch Linux', 'Debian', 'NixOS', 'Tails', 'Proxmox VE'],
+            items: ['NixOS', 'Arch Linux', 'Debian', 'Ubuntu', 'OpenBSD'],
         },
         {
             group: 'Languages & Scripting',
-            items: ['Python', 'Bash/Shell', 'C++', 'Java'],
+            items: ['C', 'C++', 'Python', 'Bash', 'Nix', 'Lua'],
+        },
+        {
+            group: 'Monitoring & Automation',
+            items: ['Netdata', 'systemd', 'btop', 'smartmontools', 'cron'],
         },
         {
             group: 'Tools & Platforms',
-            items: ['Git', 'MySQL', 'n8n', 'Home Assistant'],
+            items: ['Git', 'Neovim', 'tmux', 'n8n', 'Home Assistant', 'MySQL'],
         },
     ],
+
 
     // --- Contact ---
     contact: {
         email: 'srivatsapoojary@gmail.com',
-        heading: "Get in Touch",
-        description: "Feel free to reach out for collaborations or questions.",
+        heading: 'Get in Touch',
+        description: 'Feel free to reach out for collaborations, questions, or just to talk about infrastructure.',
         responseTime: 'Usually responds within 24–48 hours',
     },
-
 
     // --- Navigation ---
     nav: [
