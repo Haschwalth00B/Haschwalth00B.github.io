@@ -9,7 +9,7 @@ export default function Skills() {
 
     return (
         <section id="skills" ref={ref} className="py-10">
-            <div className="max-w-2xl mx-auto px-6">
+            <div className="container-main px-6">
                 <SectionHeader title="Skills" />
 
                 <div className="mt-6 space-y-6">

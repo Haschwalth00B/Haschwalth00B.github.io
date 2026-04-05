@@ -1,27 +1,41 @@
 
+import { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Github, Linkedin, Mail, Instagram, Film, Download } from 'lucide-react';
+import { Github, Linkedin, Mail, Instagram, Film, Download, Check } from 'lucide-react';
 import { siteData } from '../data/siteData';
 
 const iconMap: Record<string, React.ElementType> = { github: Github, linkedin: Linkedin, mail: Mail, instagram: Instagram, film: Film };
 
 export default function Hero() {
+    const [downloaded, setDownloaded] = useState(false);
+
+    const handleDownload = () => {
+        setDownloaded(true);
+        setTimeout(() => setDownloaded(false), 2000);
+    };
+
     return (
         <section id="home" className="pt-20 pb-10">
-            <div className="max-w-2xl mx-auto px-6">
-                {/* Banner image */}
+            <div className="container-main px-6">
+                {/* Banner image — links to Art Institute of Chicago page for Nighthawks (1942) */}
                 <motion.div
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     transition={{ duration: 0.6 }}
                     className="rounded-lg overflow-hidden mb-6 aspect-[3/1] bg-surface"
                 >
-                    <img
-                        src="/images/banner.jpg"
-                        alt="Banner"
-                        className="w-full h-full object-cover"
-                        onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }}
-                    />
+                    <a
+                        href="https://www.artic.edu/artworks/111628/nighthawks"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                    >
+                        <img
+                            src="/images/banner.jpg"
+                            alt="Nighthawks (1942) by Edward Hopper"
+                            className="w-full h-full object-cover"
+                            onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }}
+                        />
+                    </a>
                 </motion.div>
 
                 {/* Name + Role row */}
@@ -88,10 +102,20 @@ export default function Hero() {
                         <a
                             href={siteData.hero.resumeUrl}
                             download
+                            onClick={handleDownload}
                             className="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium bg-accent text-background rounded-md hover:bg-accent/90 transition-colors"
                         >
-                            <Download className="w-4 h-4" />
-                            Resume
+                            {downloaded ? (
+                                <>
+                                    <Check className="w-4 h-4" />
+                                    Downloaded
+                                </>
+                            ) : (
+                                <>
+                                    <Download className="w-4 h-4" />
+                                    Resume
+                                </>
+                            )}
                         </a>
                     </motion.div>
                 )}

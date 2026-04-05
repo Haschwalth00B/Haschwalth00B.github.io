@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react';
+import { useRef, useState, useEffect } from 'react';
 import { motion, useInView, AnimatePresence } from 'framer-motion';
 import { Calendar, ArrowRight, X, BookOpen } from 'lucide-react';
 import Markdown from 'react-markdown';
@@ -30,6 +30,18 @@ function parseFrontmatter(raw: string): BlogPost {
     };
 }
 
+/**
+ * Truncate text to a max character length, breaking at word boundaries.
+ * Avoids cutting mid-word.
+ */
+function truncateAtWord(text: string, maxLength: number): string {
+    if (text.length <= maxLength) return text;
+    const truncated = text.slice(0, maxLength);
+    const lastSpace = truncated.lastIndexOf(' ');
+    if (lastSpace === -1) return truncated + '…';
+    return truncated.slice(0, lastSpace) + '…';
+}
+
 const posts: BlogPost[] = [parseFrontmatter(haClusterRaw)];
 
 export default function Blog() {
@@ -37,9 +49,19 @@ export default function Blog() {
     const inView = useInView(ref, { once: true, margin: '-80px' });
     const [selected, setSelected] = useState<BlogPost | null>(null);
 
+    // Lock body scroll when modal is open
+    useEffect(() => {
+        if (selected) {
+            document.body.style.overflow = 'hidden';
+        } else {
+            document.body.style.overflow = '';
+        }
+        return () => { document.body.style.overflow = ''; };
+    }, [selected]);
+
     return (
         <section id="blog" ref={ref} className="py-10">
-            <div className="max-w-2xl mx-auto px-6">
+            <div className="container-main px-6">
                 <SectionHeader title="Blog" />
 
                 {posts.length === 0 ? (
@@ -66,7 +88,7 @@ export default function Blog() {
                                     {post.title}
                                 </h3>
                                 <p className="text-muted text-sm line-clamp-2">
-                                    {post.content.replace(/^#.*\n*/gm, '').substring(0, 150)}...
+                                    {truncateAtWord(post.content.replace(/^#.*\n*/gm, ''), 150)}
                                 </p>
                                 <span className="text-accent text-xs flex items-center gap-1 mt-2 group-hover:gap-2 transition-all">
                                     Read more <ArrowRight className="w-3 h-3" />
@@ -84,33 +106,39 @@ export default function Blog() {
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
                         exit={{ opacity: 0 }}
-                        className="fixed inset-0 z-50 flex items-start justify-center p-4 pt-20 overflow-y-auto"
+                        className="fixed inset-0 z-50 overflow-y-auto"
                         onClick={() => setSelected(null)}
                     >
                         <div className="absolute inset-0 bg-background/95" />
-                        <motion.div
-                            initial={{ opacity: 0, y: 20 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            exit={{ opacity: 0, y: 20 }}
-                            onClick={e => e.stopPropagation()}
-                            className="relative bg-surface border border-border rounded-lg p-8 max-w-3xl w-full mb-20"
-                        >
-                            <button
-                                onClick={() => setSelected(null)}
-                                className="absolute top-4 right-4 text-muted hover:text-foreground transition-colors"
+                        <div className="relative min-h-full flex flex-col items-center px-4 sm:px-6 py-6 sm:pt-20 sm:pb-20">
+                            {/* Sticky close button — always reachable */}
+                            <div className="sticky top-0 z-10 w-full max-w-3xl flex justify-end pb-2 pt-2">
+                                <button
+                                    onClick={(e) => { e.stopPropagation(); setSelected(null); }}
+                                    className="flex items-center justify-center w-9 h-9 rounded-md bg-surface border border-border text-muted hover:text-foreground hover:border-muted transition-colors"
+                                    title="Close"
+                                >
+                                    <X className="w-5 h-5" />
+                                </button>
+                            </div>
+
+                            <motion.div
+                                initial={{ opacity: 0, y: 20 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                exit={{ opacity: 0, y: 20 }}
+                                onClick={e => e.stopPropagation()}
+                                className="relative bg-surface border border-border rounded-lg p-5 sm:p-8 max-w-3xl w-full"
                             >
-                                <X className="w-5 h-5" />
-                            </button>
+                                <div className="flex items-center gap-2 text-xs text-muted mb-4 font-mono">
+                                    <Calendar className="w-3 h-3" />
+                                    {selected.date}
+                                </div>
 
-                            <div className="flex items-center gap-2 text-xs text-muted mb-4 font-mono">
-                                <Calendar className="w-3 h-3" />
-                                {selected.date}
-                            </div>
-
-                            <div className="prose max-w-none">
-                                <Markdown remarkPlugins={[remarkGfm]}>{selected.content}</Markdown>
-                            </div>
-                        </motion.div>
+                                <div className="prose max-w-none">
+                                    <Markdown remarkPlugins={[remarkGfm]}>{selected.content}</Markdown>
+                                </div>
+                            </motion.div>
+                        </div>
                     </motion.div>
                 )}
             </AnimatePresence>

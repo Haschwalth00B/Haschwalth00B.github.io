@@ -10,7 +10,7 @@ export default function Education() {
 
     return (
         <section id="education" ref={ref} className="py-10">
-            <div className="max-w-2xl mx-auto px-6">
+            <div className="container-main px-6">
                 <SectionHeader title="Education" />
 
                 <div className="mt-6 space-y-6">

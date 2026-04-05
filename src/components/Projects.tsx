@@ -14,7 +14,7 @@ export default function Projects() {
 
     return (
         <section id="projects" ref={ref} className="py-10">
-            <div className="max-w-2xl mx-auto px-6">
+            <div className="container-main px-6">
                 <SectionHeader title="Projects" />
 
                 {/* Filter */}

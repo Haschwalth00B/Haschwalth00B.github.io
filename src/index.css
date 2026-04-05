@@ -60,6 +60,28 @@
   }
 }
 
+/* ============================================
+   Responsive container — scales with viewport
+   Mobile unchanged, expands on larger screens
+   ============================================ */
+.container-main {
+  width: 100%;
+  max-width: 42rem;
+  margin-inline: auto;
+}
+
+@media (min-width: 1024px) {
+  .container-main {
+    max-width: 48rem;
+  }
+}
+
+@media (min-width: 1280px) {
+  .container-main {
+    max-width: 56rem;
+  }
+}
+
 /* Subtle card style */
 .card {
   background: var(--color-surface);
@@ -75,6 +97,31 @@
 .divider {
   height: 1px;
   background: var(--color-border);
+}
+
+/* ============================================
+   Gallery — Masonry + Lightbox
+   ============================================ */
+.masonry {
+  column-count: 1;
+  column-gap: 1rem;
+}
+
+@media (min-width: 640px) {
+  .masonry {
+    column-count: 2;
+  }
+}
+
+@media (min-width: 1024px) {
+  .masonry {
+    column-count: 3;
+  }
+}
+
+.masonry-item {
+  break-inside: avoid;
+  margin-bottom: 1rem;
 }
 
 /* Blog markdown styles */

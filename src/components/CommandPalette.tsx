@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { siteData } from '../data/siteData';
+import { onCommandPaletteToggle } from '../lib/commandPaletteEvents';
 
 export default function CommandPalette() {
     const [open, setOpen] = useState(false);
@@ -17,6 +18,7 @@ export default function CommandPalette() {
         : items;
 
     useEffect(() => {
+        // Keyboard shortcut: Ctrl+K / Cmd+K
         const onKey = (e: KeyboardEvent) => {
             if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
                 e.preventDefault();
@@ -26,7 +28,17 @@ export default function CommandPalette() {
             if (e.key === 'Escape') setOpen(false);
         };
         window.addEventListener('keydown', onKey);
-        return () => window.removeEventListener('keydown', onKey);
+
+        // Shared event from Navbar button
+        const unsubscribe = onCommandPaletteToggle(() => {
+            setOpen(prev => !prev);
+            setQuery('');
+        });
+
+        return () => {
+            window.removeEventListener('keydown', onKey);
+            unsubscribe();
+        };
     }, []);
 
     const handleSelect = (item: typeof items[0]) => {

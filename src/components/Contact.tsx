@@ -17,7 +17,7 @@ export default function Contact() {
 
     return (
         <section id="contact" ref={ref} className="py-10">
-            <div className="max-w-2xl mx-auto px-6">
+            <div className="container-main px-6">
                 <SectionHeader title="Contact" />
 
                 <motion.div

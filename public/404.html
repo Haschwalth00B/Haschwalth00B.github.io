@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <title>Redirecting…</title>
+  <script>
+    // GitHub Pages SPA redirect.
+    // Converts the current path into a query-string parameter and redirects
+    // to index.html so the client-side app can handle the route.
+    (function () {
+      var repo = ''; // set to '/repo-name' if hosted at username.github.io/repo-name
+      var path = window.location.pathname.replace(repo, '');
+      var query = window.location.search;
+      var hash = window.location.hash;
+      window.location.replace(
+        window.location.origin + repo + '/?p=' + encodeURIComponent(path + query + hash)
+      );
+    })();
+  </script>
+</head>
+
+<body>
+</body>
+
+</html>

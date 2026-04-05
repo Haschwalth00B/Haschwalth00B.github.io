@@ -8,9 +8,12 @@ export default function Experience() {
     const inView = useInView(ref, { once: true, margin: '-80px' });
 
     return (
-        <section id="experience" ref={ref} className="py-10">
-            <div className="max-w-2xl mx-auto px-6">
-                <SectionHeader title="Experience" />
+        <section id="engineering" ref={ref} className="py-10">
+            <div className="container-main px-6">
+                <SectionHeader title="Engineering" />
+                <p className="text-muted text-sm mb-6 -mt-1">
+                    Personal infrastructure projects — what I learned by building and operating real systems.
+                </p>
 
                 <div className="mt-6 space-y-6">
                     {siteData.experience.map((exp, i) => (

@@ -2,7 +2,6 @@ import { motion } from 'framer-motion';
 
 interface Props {
     title: string;
-    number?: string;
 }
 
 export default function SectionHeader({ title }: Props) {

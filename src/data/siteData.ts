@@ -1,4 +1,4 @@
-;// ============================================
+// ============================================
 // SITE DATA — Single Source of Truth
 // ============================================
 // Edit this file to update all personal data across the site.
@@ -18,14 +18,14 @@ export const siteData = {
         greeting: "Hi, I'm",
         displayName: 'Srivatsa',
         subtitle: 'BCA Student · Systems & Infrastructure',
-        bio: "Building and operating real Linux infrastructure — NixOS home server, self-hosted services, HA virtualisation, and network engineering. Contributor to nixpkgs.",
+        bio: "Building and operating real Linux infrastructure — from NixOS servers to HA clusters. Contributor to nixpkgs.",
         hasResume: true,
         resumeUrl: '/resume/Srivatsa_S_Poojari_Resume.pdf',
     },
 
     // --- About ---
     about: {
-        bio: "I'm Srivatsa, a second-year BCA student with a deep interest in Linux systems, self-hosting, and infrastructure engineering. I learn by building real systems — my home server runs NixOS with a fully declarative Flakes config, and I run a Proxmox HA cluster for learning virtualisation. I've also made small contributions to the nixpkgs open-source package repository.",
+        bio: "I'm Srivatsa, a second-year BCA student with a deep interest in Linux systems, self-hosting, and infrastructure engineering. I learn by building real systems — my home server runs NixOS with a fully declarative Flakes config, and I run a Proxmox HA cluster for learning virtualisation.",
         currently: [
             { label: '📖 Learning', value: 'LTE/5G protocol stack + Python' },
             { label: '🔧 Operating', value: 'NixOS home server (8+ services)' },
@@ -75,25 +75,24 @@ export const siteData = {
 
     ],
 
-    // --- Experience ---
+    // --- Engineering (formerly Experience) ---
     experience: [
         {
             title: 'NixOS Home Server',
             company: 'Infrastructure Project',
             period: '2024 – Present',
-            description: 'Fully declarative server configuration using Nix Flakes — every package, service, and system option is version-controlled. Rebuilding from scratch produces an identical system.',
+            description: 'Learned how declarative configuration eliminates drift — breaking changes surface at build time, not in production. Debugging Nix evaluation errors built an intuition for functional composition and lazy evaluation.',
             responsibilities: [
                 '14 purpose-built NixOS modules managing boot, networking, security, power, monitoring, and Docker',
                 'Home Manager integration declaring the full user environment (shell, editor, tools) alongside system config',
                 'Automated weekly garbage collection, system upgrades, and Docker pruning via NixOS options',
-                'Contributed upstream to nixpkgs — PR #498949 merged into NixOS/nixpkgs master',
             ],
         },
         {
             title: 'Self-Hosted Service Stack',
             company: 'Homelab Project',
             period: '2023 – Present',
-            description: 'Operating 8+ containerised services in production via Docker Compose: Immich (photo management with ML inference), Home Assistant, n8n workflow automation, Pi-hole DNS, and more.',
+            description: 'Running services for daily use taught the gap between deploying software and operating it — handling silent certificate renewal failures, DNS breakage after power cuts, and the discipline of actually verifying backups.',
             responsibilities: [
                 'Nginx reverse proxy with automated Let\'s Encrypt TLS — HTTPS for all internal services',
                 'Tailscale overlay VPN for secure remote access with zero open ports on the public internet',
@@ -105,7 +104,7 @@ export const siteData = {
             title: 'Proxmox HA Virtualisation Cluster',
             company: 'Lab Project',
             period: '2023 – Present',
-            description: 'Multi-node Proxmox VE cluster with live VM migration, failover testing, and shared storage evaluation.',
+            description: 'Deliberately breaking nodes revealed what \'high availability\' actually costs — failover without shared storage means restarts not migrations, and clock drift between nodes triggers split-brain faster than expected.',
             responsibilities: [
                 'Induced node failures and validated automatic failover behaviour under simulated outages',
                 'Evaluated Ceph vs NFS backends for clustered VM disk I/O; documented latency tradeoffs',
@@ -228,10 +227,12 @@ export const siteData = {
     // --- Navigation ---
     nav: [
         { label: 'Home', href: '#home' },
+        { label: 'About', href: '#about' },
         { label: 'Skills', href: '#skills' },
         { label: 'Projects', href: '#projects' },
-        { label: 'Experience', href: '#experience' },
+        { label: 'Engineering', href: '#engineering' },
         { label: 'Education', href: '#education' },
+        { label: 'Gallery', href: '#gallery' },
         { label: 'Blog', href: '#blog' },
         { label: 'Contact', href: '#contact' },
     ],
