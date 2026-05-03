@@ -6,12 +6,14 @@ import { siteData } from '../data/siteData';
 
 const iconMap: Record<string, React.ElementType> = { github: Github, linkedin: Linkedin, mail: Mail, instagram: Instagram, film: Film };
 
+
 export default function Hero() {
     const [downloaded, setDownloaded] = useState(false);
 
     const handleDownload = () => {
         setDownloaded(true);
         setTimeout(() => setDownloaded(false), 2000);
+        gtag('event', 'resume_download', { event_category: 'engagement' });
     };
 
     return (
@@ -28,6 +30,7 @@ export default function Hero() {
                         href="https://www.artic.edu/artworks/111628/nighthawks"
                         target="_blank"
                         rel="noopener noreferrer"
+
                     >
                         <img
                             src="/images/banner.jpg"
@@ -66,8 +69,14 @@ export default function Hero() {
                                 href={s.url}
                                 target="_blank"
                                 rel="noopener noreferrer"
+
                                 className="text-muted hover:text-foreground transition-colors"
                                 title={s.name}
+                                onClick={() => gtag('event', 'social_click', {
+                                    event_category: 'engagement',
+                                    platform: s.name,
+                                    location: 'hero',
+                                })}
                             >
                                 <Icon className="w-[18px] h-[18px]" />
                             </a>
@@ -80,13 +89,16 @@ export default function Hero() {
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     transition={{ delay: 0.4 }}
+
                     className="flex items-start justify-between gap-6"
                 >
                     <p className="text-muted leading-relaxed max-w-md">
+
                         {siteData.hero.bio}
                     </p>
                     <div className="text-right text-sm text-muted shrink-0 hidden sm:block">
                         <p>{new Date().toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: true })}</p>
+
                         <p className="mt-0.5">{siteData.location}</p>
                     </div>
                 </motion.div>
@@ -123,3 +135,4 @@ export default function Hero() {
         </section>
     );
 }
+

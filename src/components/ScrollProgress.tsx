@@ -17,8 +17,20 @@ export default function ScrollProgress() {
         return () => window.removeEventListener('scroll', onScroll);
     }, []);
 
+    // Track when user reaches the bottom of the page (≥90% scroll depth)
+    useEffect(() => {
+        if (scrollProgress >= 90) {
+            gtag('event', 'page_scrolled_to_bottom', {
+                event_category: 'engagement',
+                scroll_depth: Math.round(scrollProgress),
+            });
+        }
+    }, [scrollProgress >= 90]); // only fires once when threshold is crossed
+
     const scrollToTop = () => {
         window.scrollTo({ top: 0, behavior: 'smooth' });
+        gtag('event', 'back_to_top_click', { event_category: 'engagement' });
+
     };
 
     return (
@@ -26,11 +38,13 @@ export default function ScrollProgress() {
             {/* Scroll progress bar */}
             <div className="fixed top-0 left-0 right-0 z-[60] h-[2px] bg-transparent">
                 <motion.div
+
                     className="h-full bg-accent"
                     style={{ width: `${scrollProgress}%` }}
                     transition={{ duration: 0.1 }}
                 />
             </div>
+
 
             {/* Back to top button */}
             <AnimatePresence>
@@ -50,3 +64,4 @@ export default function ScrollProgress() {
         </>
     );
 }
+

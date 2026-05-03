@@ -22,8 +22,15 @@ export default function CommandPalette() {
         const onKey = (e: KeyboardEvent) => {
             if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
                 e.preventDefault();
-                setOpen(prev => !prev);
+                const willOpen = !open;
+                setOpen(willOpen);
                 setQuery('');
+                if (willOpen) {
+                    gtag('event', 'command_palette_open', {
+                        event_category: 'engagement',
+                        trigger: 'keyboard',
+                    });
+                }
             }
             if (e.key === 'Escape') setOpen(false);
         };
@@ -31,7 +38,18 @@ export default function CommandPalette() {
 
         // Shared event from Navbar button
         const unsubscribe = onCommandPaletteToggle(() => {
-            setOpen(prev => !prev);
+            setOpen(prev => {
+
+                const willOpen = !prev;
+                if (willOpen) {
+                    gtag('event', 'command_palette_open', {
+                        event_category: 'engagement',
+                        trigger: 'button',
+                    });
+
+                }
+                return willOpen;
+            });
             setQuery('');
         });
 
@@ -39,9 +57,14 @@ export default function CommandPalette() {
             window.removeEventListener('keydown', onKey);
             unsubscribe();
         };
-    }, []);
+    }, [open]);
 
     const handleSelect = (item: typeof items[0]) => {
+        gtag('event', 'command_palette_select', {
+            event_category: 'engagement',
+            item_label: item.label,
+            item_type: item.type,
+        });
         setOpen(false);
         setQuery('');
         item.action();
@@ -54,6 +77,7 @@ export default function CommandPalette() {
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     exit={{ opacity: 0 }}
+
                     className="fixed inset-0 z-[100] flex items-start justify-center pt-[20vh]"
                     onClick={() => setOpen(false)}
                 >
@@ -102,3 +126,4 @@ export default function CommandPalette() {
         </AnimatePresence>
     );
 }
+

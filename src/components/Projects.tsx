@@ -12,6 +12,16 @@ export default function Projects() {
     const categories = ['All', ...new Set(siteData.projects.map(p => p.category))];
     const filtered = filter === 'All' ? siteData.projects : siteData.projects.filter(p => p.category === filter);
 
+    const handleFilterChange = (cat: string) => {
+        setFilter(cat);
+        if (cat !== 'All') {
+            gtag('event', 'project_filter', {
+                event_category: 'engagement',
+                filter_category: cat,
+            });
+        }
+    };
+
     return (
         <section id="projects" ref={ref} className="py-10">
             <div className="container-main px-6">
@@ -21,8 +31,9 @@ export default function Projects() {
                 <div className="flex flex-wrap gap-2 mt-4 mb-8">
                     {categories.map(cat => (
                         <button
+
                             key={cat}
-                            onClick={() => setFilter(cat)}
+                            onClick={() => handleFilterChange(cat)}
                             className={`px-3 py-1 text-sm rounded-md transition-colors ${filter === cat
                                     ? 'bg-accent/15 text-accent'
                                     : 'text-muted hover:text-foreground'
@@ -68,6 +79,10 @@ export default function Projects() {
                                         rel="noopener noreferrer"
                                         className="text-muted hover:text-accent transition-colors shrink-0"
                                         title="View on GitHub"
+                                        onClick={() => gtag('event', 'github_link_click', {
+                                            event_category: 'engagement',
+                                            project_name: project.title,
+                                        })}
                                     >
                                         <Github className="w-4 h-4" />
                                     </a>
@@ -80,3 +95,4 @@ export default function Projects() {
         </section>
     );
 }
+

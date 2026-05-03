@@ -2,6 +2,7 @@ import { useRef, useState } from 'react';
 import { motion, useInView } from 'framer-motion';
 import { Mail, MapPin, Clock, CheckCircle } from 'lucide-react';
 import { siteData } from '../data/siteData';
+
 import SectionHeader from './SectionHeader';
 
 export default function Contact() {
@@ -13,6 +14,7 @@ export default function Contact() {
         navigator.clipboard.writeText(siteData.contact.email);
         setCopied(true);
         setTimeout(() => setCopied(false), 2000);
+        gtag('event', 'email_copy', { event_category: 'engagement' });
     };
 
     return (
@@ -36,13 +38,16 @@ export default function Contact() {
                         <Mail className="w-4 h-4 text-muted" />
                         <span className="text-accent hover:underline underline-offset-2">{siteData.contact.email}</span>
                         {copied ? (
+
                             <CheckCircle className="w-4 h-4 text-green" />
                         ) : (
                             <span className="text-xs text-muted opacity-0 group-hover:opacity-100 transition-opacity">click to copy</span>
                         )}
                     </button>
 
+
                     {/* Location & timezone */}
+
                     <div className="flex items-center gap-6 text-sm text-muted">
                         <span className="flex items-center gap-1.5">
                             <MapPin className="w-3.5 h-3.5" />
@@ -52,6 +57,7 @@ export default function Contact() {
                             <Clock className="w-3.5 h-3.5" />
                             {siteData.timezone}
                         </span>
+
                     </div>
 
                     <p className="text-sm text-muted">{siteData.contact.responseTime}</p>
@@ -60,3 +66,4 @@ export default function Contact() {
         </section>
     );
 }
+

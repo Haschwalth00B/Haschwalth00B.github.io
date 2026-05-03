@@ -23,7 +23,13 @@ export default function Footer() {
                                     target="_blank"
                                     rel="noopener noreferrer"
                                     className="text-muted hover:text-foreground transition-colors"
+
                                     title={s.name}
+                                    onClick={() => gtag('event', 'social_click', {
+                                        event_category: 'engagement',
+                                        platform: s.name,
+                                        location: 'footer',
+                                    })}
                                 >
                                     <Icon className="w-4 h-4" />
                                 </a>
@@ -35,3 +41,4 @@ export default function Footer() {
         </footer>
     );
 }
+

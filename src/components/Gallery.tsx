@@ -31,8 +31,18 @@ export default function Gallery() {
     const inView = useInView(ref, { once: true, margin: '-80px' });
     const [lightboxIndex, setLightboxIndex] = useState<number | null>(null);
 
-    const openLightbox = (index: number) => setLightboxIndex(index);
+    const openLightbox = (index: number) => {
+        setLightboxIndex(index);
+        gtag('event', 'gallery_image_open', {
+            event_category: 'engagement',
+            image_name: images[index].name,
+            image_index: index + 1,
+            total_images: images.length,
+        });
+    };
+
     const closeLightbox = () => setLightboxIndex(null);
+
 
     const goNext = useCallback(() => {
         if (lightboxIndex === null) return;
@@ -59,6 +69,7 @@ export default function Gallery() {
 
         return () => {
             document.body.style.overflow = '';
+
             window.removeEventListener('keydown', onKey);
         };
     }, [lightboxIndex, goNext, goPrev]);
@@ -112,8 +123,11 @@ export default function Gallery() {
             <AnimatePresence>
                 {lightboxIndex !== null && (
                     <motion.div
+
                         initial={{ opacity: 0 }}
+
                         animate={{ opacity: 1 }}
+
                         exit={{ opacity: 0 }}
                         className="fixed inset-0 z-[100] flex items-center justify-center"
                         onClick={closeLightbox}
@@ -130,6 +144,7 @@ export default function Gallery() {
                         </button>
 
                         {/* Previous button */}
+
                         {images.length > 1 && (
                             <button
                                 onClick={(e) => { e.stopPropagation(); goPrev(); }}
@@ -174,3 +189,4 @@ export default function Gallery() {
         </section>
     );
 }
+

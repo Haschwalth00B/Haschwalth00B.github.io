@@ -1,4 +1,4 @@
-import { useRef, useState, useEffect } from 'react';
+ import { useRef, useState, useEffect } from 'react';
 import { motion, useInView, AnimatePresence } from 'framer-motion';
 import { Calendar, ArrowRight, X, BookOpen } from 'lucide-react';
 import Markdown from 'react-markdown';
@@ -18,6 +18,7 @@ function parseFrontmatter(raw: string): BlogPost {
     const match = raw.match(/^---\n([\s\S]*?)\n---\n([\s\S]*)$/);
     if (!match) return { slug: '', title: 'Untitled', date: '', content: raw };
     const meta: Record<string, string> = {};
+
     match[1].split('\n').forEach(line => {
         const [k, ...v] = line.split(':');
         if (k && v.length) meta[k.trim()] = v.join(':').trim().replace(/^['"]|['"]$/g, '');
@@ -30,10 +31,7 @@ function parseFrontmatter(raw: string): BlogPost {
     };
 }
 
-/**
- * Truncate text to a max character length, breaking at word boundaries.
- * Avoids cutting mid-word.
- */
+
 function truncateAtWord(text: string, maxLength: number): string {
     if (text.length <= maxLength) return text;
     const truncated = text.slice(0, maxLength);
@@ -52,12 +50,22 @@ export default function Blog() {
     // Lock body scroll when modal is open
     useEffect(() => {
         if (selected) {
+
             document.body.style.overflow = 'hidden';
         } else {
             document.body.style.overflow = '';
         }
         return () => { document.body.style.overflow = ''; };
     }, [selected]);
+
+    const handleOpenPost = (post: BlogPost) => {
+        setSelected(post);
+        gtag('event', 'blog_post_read', {
+            event_category: 'engagement',
+            blog_title: post.title,
+            blog_slug: post.slug,
+        });
+    };
 
     return (
         <section id="blog" ref={ref} className="py-10">
@@ -77,7 +85,7 @@ export default function Blog() {
                                 initial={{ opacity: 0, y: 10 }}
                                 animate={inView ? { opacity: 1, y: 0 } : {}}
                                 transition={{ delay: i * 0.08, duration: 0.4 }}
-                                onClick={() => setSelected(post)}
+                                onClick={() => handleOpenPost(post)}
                                 className="w-full text-left py-4 border-b border-border hover:bg-surface/50 transition-colors group"
                             >
                                 <div className="flex items-center gap-2 text-xs text-muted mb-1 font-mono">
@@ -91,6 +99,7 @@ export default function Blog() {
                                     {truncateAtWord(post.content.replace(/^#.*\n*/gm, ''), 150)}
                                 </p>
                                 <span className="text-accent text-xs flex items-center gap-1 mt-2 group-hover:gap-2 transition-all">
+
                                     Read more <ArrowRight className="w-3 h-3" />
                                 </span>
                             </motion.button>
@@ -106,6 +115,7 @@ export default function Blog() {
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
                         exit={{ opacity: 0 }}
+
                         className="fixed inset-0 z-50 overflow-y-auto"
                         onClick={() => setSelected(null)}
                     >
@@ -117,6 +127,7 @@ export default function Blog() {
                                     onClick={(e) => { e.stopPropagation(); setSelected(null); }}
                                     className="flex items-center justify-center w-9 h-9 rounded-md bg-surface border border-border text-muted hover:text-foreground hover:border-muted transition-colors"
                                     title="Close"
+
                                 >
                                     <X className="w-5 h-5" />
                                 </button>
@@ -145,3 +156,4 @@ export default function Blog() {
         </section>
     );
 }
+
