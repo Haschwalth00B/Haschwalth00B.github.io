@@ -1,98 +1,163 @@
-import { useRef, useState } from 'react';
+import { useRef } from 'react';
 import { motion, useInView } from 'framer-motion';
-import { Github } from 'lucide-react';
+import { Github, ArrowUpRight } from 'lucide-react';
 import { siteData } from '../data/siteData';
 import SectionHeader from './SectionHeader';
 
 export default function Projects() {
     const ref = useRef(null);
     const inView = useInView(ref, { once: true, margin: '-80px' });
-    const [filter, setFilter] = useState('All');
-
-    const categories = ['All', ...new Set(siteData.projects.map(p => p.category))];
-    const filtered = filter === 'All' ? siteData.projects : siteData.projects.filter(p => p.category === filter);
-
-    const handleFilterChange = (cat: string) => {
-        setFilter(cat);
-        if (cat !== 'All') {
-            gtag('event', 'project_filter', {
-                event_category: 'engagement',
-                filter_category: cat,
-            });
-        }
-    };
 
     return (
-        <section id="projects" ref={ref} className="py-10">
-            <div className="container-main px-6">
-                <SectionHeader title="Projects" />
+        <section id="work" ref={ref} className="section">
+            <div className="layout-main">
+                <SectionHeader title="Selected Work" number={siteData.sections.work.number} />
 
-                {/* Filter */}
-                <div className="flex flex-wrap gap-2 mt-4 mb-8">
-                    {categories.map(cat => (
-                        <button
-
-                            key={cat}
-                            onClick={() => handleFilterChange(cat)}
-                            className={`px-3 py-1 text-sm rounded-md transition-colors ${filter === cat
-                                    ? 'bg-accent/15 text-accent'
-                                    : 'text-muted hover:text-foreground'
-                                }`}
+                {/* Featured Projects — Case Study Spreads */}
+                <div className="projects-list">
+                    {siteData.projects.map((project, i) => (
+                        <motion.article
+                            key={project.id}
+                            initial={{ opacity: 0, y: 15 }}
+                            animate={inView ? { opacity: 1, y: 0 } : {}}
+                            transition={{ delay: i * 0.1, duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
+                            className="case-study"
                         >
-                            {cat}
-                        </button>
+                            <div className="case-study__header">
+                                <span className="case-study__num">
+                                    {String(i + 1).padStart(2, '0')}
+                                </span>
+
+                                <div className="case-study__meta">
+                                    <span className="case-study__period">{project.period}</span>
+                                    <span className="case-study__status">
+                                        <span className="case-study__dot" />
+                                        {project.status}
+                                    </span>
+                                </div>
+                            </div>
+
+                            <div className="case-study__grid">
+                                {/* Case Study Narrative */}
+                                <div className="case-study__content">
+                                    <h3 className="case-study__title">{project.title}</h3>
+                                    <p className="case-study__desc">{project.description}</p>
+
+                                    {/* Implementation Details List */}
+                                    <ul className="case-study__bullets">
+                                        {project.implementationDetails.map((detail, idx) => (
+                                            <li key={idx}>{detail}</li>
+                                        ))}
+                                    </ul>
+
+                                    <div className="case-study__footer">
+                                        <span className="case-study__tech">
+                                            {project.tags.join(' · ')}
+                                        </span>
+
+                                        {project.github && (
+                                            <a
+                                                href={project.github}
+                                                target="_blank"
+                                                rel="noopener noreferrer"
+                                                className="case-study__link"
+                                                onClick={() => {
+                                                    if (typeof gtag === 'function') {
+                                                        gtag('event', 'github_link_click', {
+                                                            event_category: 'engagement',
+                                                            project_name: project.title,
+                                                        });
+                                                    }
+                                                }}
+                                            >
+                                                <Github size={13} />
+                                                Source
+                                                <ArrowUpRight size={11} />
+                                            </a>
+                                        )}
+                                    </div>
+                                </div>
+
+                                {/* Authentic Visual Column: Real Hardware Image or Technical Spec */}
+                                {project.image ? (
+                                    <div className="case-study__visual">
+                                        <div className="case-study__img-wrapper">
+                                            <img
+                                                src={project.image}
+                                                alt={project.title}
+                                                className="case-study__img"
+                                            />
+                                        </div>
+                                        <span className="case-study__caption">
+                                            Fig. {String(i + 1).padStart(2, '0')} — Proxmox VE Lab Hardware Cluster Nodes
+                                        </span>
+                                    </div>
+                                ) : (
+                                    <div className="case-study__spec-box">
+                                        <div className="case-study__spec-inner">
+                                            <span className="case-study__spec-label">SYSTEM ARCHITECTURE</span>
+                                            <div className="case-study__spec-rows">
+                                                <div className="case-study__spec-row">
+                                                    <span>CATEGORY</span>
+                                                    <span>{project.category}</span>
+                                                </div>
+                                                <div className="case-study__spec-row">
+                                                    <span>TIMELINE</span>
+                                                    <span>{project.period}</span>
+                                                </div>
+                                                <div className="case-study__spec-row">
+                                                    <span>STATE</span>
+                                                    <span>{project.status}</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                )}
+                            </div>
+                        </motion.article>
                     ))}
                 </div>
 
-                {/* Project list */}
-                <div className="space-y-4">
-                    {filtered.map((project, i) => (
-                        <motion.div
-                            key={project.title}
-                            initial={{ opacity: 0, y: 10 }}
-                            animate={inView ? { opacity: 1, y: 0 } : {}}
-                            transition={{ delay: i * 0.08, duration: 0.4 }}
-                            className="card p-5 card-hover transition-all duration-200"
-                        >
-                            <div className="flex items-start justify-between gap-3 mb-2">
-                                <h3 className="font-semibold">{project.title}</h3>
-                                <div className="flex items-center gap-2 shrink-0">
-                                    <span className={`w-1.5 h-1.5 rounded-full ${project.status === 'Active' ? 'bg-green' : 'bg-muted'}`} />
-                                    <span className="text-xs text-muted">{project.status}</span>
-                                </div>
-                            </div>
+                {/* Secondary Repositories & Dotfiles */}
+                <div className="other-projects">
+                    <div className="other-projects__header">
+                        <span className="meta">SECONDARY REPOSITORIES & DOTFILES</span>
+                    </div>
 
-                            <p className="text-muted text-sm mb-3">{project.description}</p>
-
-                            <div className="flex items-center justify-between">
-                                <div className="flex flex-wrap gap-1.5">
-                                    {project.tags.map(tag => (
-                                        <span key={tag} className="px-2 py-0.5 text-xs font-mono rounded text-muted bg-background border border-border">
-                                            {tag}
-                                        </span>
-                                    ))}
+                    <div className="other-projects__table">
+                        {siteData.otherProjects.map((item, i) => (
+                            <motion.div
+                                key={item.title}
+                                initial={{ opacity: 0 }}
+                                animate={inView ? { opacity: 1 } : {}}
+                                transition={{ delay: (siteData.projects.length + i) * 0.05, duration: 0.4 }}
+                                className="other-projects__row"
+                            >
+                                <span className="other-projects__cat">{item.category}</span>
+                                <div>
+                                    <span className="other-projects__title">{item.title}</span>
+                                    <p className="small-text" style={{ marginTop: '2px' }}>{item.desc}</p>
                                 </div>
-                                {'github' in project && (project as any).github && (
-                                    <a
-                                        href={(project as any).github}
-                                        target="_blank"
-                                        rel="noopener noreferrer"
-                                        className="text-muted hover:text-accent transition-colors shrink-0"
-                                        title="View on GitHub"
-                                        onClick={() => gtag('event', 'github_link_click', {
-                                            event_category: 'engagement',
-                                            project_name: project.title,
-                                        })}
-                                    >
-                                        <Github className="w-4 h-4" />
-                                    </a>
-                                )}
-                            </div>
-                        </motion.div>
-                    ))}
+                                <span className="other-projects__tags">{item.tags.join(' · ')}</span>
+
+                                <div className="other-projects__actions">
+                                    {item.github && (
+                                        <a
+                                            href={item.github}
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                            className="other-projects__link"
+                                            title="View Source"
+                                        >
+                                            <Github size={13} />
+                                        </a>
+                                    )}
+                                </div>
+                            </motion.div>
+                        ))}
+                    </div>
                 </div>
             </div>
         </section>
     );
 }
-

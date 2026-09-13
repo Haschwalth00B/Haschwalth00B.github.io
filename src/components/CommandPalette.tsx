@@ -25,7 +25,7 @@ export default function CommandPalette() {
                 const willOpen = !open;
                 setOpen(willOpen);
                 setQuery('');
-                if (willOpen) {
+                if (willOpen && typeof gtag === 'function') {
                     gtag('event', 'command_palette_open', {
                         event_category: 'engagement',
                         trigger: 'keyboard',
@@ -39,14 +39,12 @@ export default function CommandPalette() {
         // Shared event from Navbar button
         const unsubscribe = onCommandPaletteToggle(() => {
             setOpen(prev => {
-
                 const willOpen = !prev;
-                if (willOpen) {
+                if (willOpen && typeof gtag === 'function') {
                     gtag('event', 'command_palette_open', {
                         event_category: 'engagement',
                         trigger: 'button',
                     });
-
                 }
                 return willOpen;
             });
@@ -60,11 +58,13 @@ export default function CommandPalette() {
     }, [open]);
 
     const handleSelect = (item: typeof items[0]) => {
-        gtag('event', 'command_palette_select', {
-            event_category: 'engagement',
-            item_label: item.label,
-            item_type: item.type,
-        });
+        if (typeof gtag === 'function') {
+            gtag('event', 'command_palette_select', {
+                event_category: 'engagement',
+                item_label: item.label,
+                item_type: item.type,
+            });
+        }
         setOpen(false);
         setQuery('');
         item.action();
@@ -77,45 +77,44 @@ export default function CommandPalette() {
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     exit={{ opacity: 0 }}
-
-                    className="fixed inset-0 z-[100] flex items-start justify-center pt-[20vh]"
+                    className="cmd-overlay"
                     onClick={() => setOpen(false)}
                 >
-                    <div className="absolute inset-0 bg-background/80 backdrop-blur-sm" />
+                    <div className="cmd-backdrop" />
                     <motion.div
                         initial={{ opacity: 0, y: -10, scale: 0.98 }}
                         animate={{ opacity: 1, y: 0, scale: 1 }}
                         exit={{ opacity: 0, y: -10, scale: 0.98 }}
                         onClick={e => e.stopPropagation()}
-                        className="relative w-full max-w-md bg-surface border border-border rounded-lg shadow-2xl overflow-hidden"
+                        className="cmd-panel"
                     >
                         {/* Search input */}
-                        <div className="flex items-center gap-3 px-4 py-3 border-b border-border">
-                            <span className="text-muted text-sm">›</span>
+                        <div className="cmd-input-row">
+                            <span className="cmd-input-row__prompt">›</span>
                             <input
                                 type="text"
                                 value={query}
                                 onChange={e => setQuery(e.target.value)}
                                 placeholder="Type a command..."
                                 autoFocus
-                                className="flex-1 bg-transparent text-foreground text-sm placeholder-muted outline-none"
+                                className="cmd-input"
                             />
-                            <kbd className="text-xs text-muted px-1.5 py-0.5 rounded border border-border bg-background font-mono">esc</kbd>
+                            <kbd className="cmd-kbd">esc</kbd>
                         </div>
 
                         {/* Results */}
-                        <div className="max-h-64 overflow-y-auto py-2">
+                        <div className="cmd-results">
                             {filtered.length === 0 ? (
-                                <p className="text-muted text-sm text-center py-4">No results found.</p>
+                                <p className="cmd-empty">No results found.</p>
                             ) : (
                                 filtered.map(item => (
                                     <button
                                         key={item.label}
                                         onClick={() => handleSelect(item)}
-                                        className="w-full text-left px-4 py-2.5 text-sm hover:bg-accent/10 transition-colors flex items-center justify-between group"
+                                        className="cmd-item"
                                     >
-                                        <span className="text-foreground group-hover:text-accent transition-colors">{item.label}</span>
-                                        <span className="text-xs text-muted capitalize">{item.type}</span>
+                                        <span className="cmd-item__label">{item.label}</span>
+                                        <span className="cmd-item__type">{item.type}</span>
                                     </button>
                                 ))
                             )}
@@ -126,4 +125,3 @@ export default function CommandPalette() {
         </AnimatePresence>
     );
 }
-

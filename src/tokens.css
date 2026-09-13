@@ -1,0 +1,174 @@
+/* ============================================
+   DESIGN TOKENS — Editorial Portfolio
+   ============================================
+   Single source of truth for all visual values.
+   Change these to change the entire site.
+   ============================================ */
+
+:root {
+  /* ---- Named Palette ---- */
+  --color-basil: #879F84;
+  --color-potting-soil: #C4A882;
+  --color-cherry-tomato: #F2013F;
+
+  /* ---- Functional Tokens (Dark Editorial) ---- */
+  --color-background: #111110;
+  --color-surface: #1A1918;
+  --color-surface-hover: #222120;
+  --color-text: #C8C3BB;
+  --color-heading: #EDE9E1;
+  --color-muted: #706B64;
+  --color-border: #2A2826;
+  --color-border-hover: #3D3A36;
+  --color-accent: #F2013F;
+  --color-structural: #879F84;
+  --color-selection-bg: #879F84;
+  --color-selection-fg: #111110;
+
+  /* ---- Typography ---- */
+  --font-display: 'Instrument Serif', 'Georgia', serif;
+  --font-body: 'Inter', system-ui, -apple-system, sans-serif;
+  --font-mono: 'IBM Plex Mono', 'JetBrains Mono', ui-monospace, monospace;
+
+  --text-display: clamp(3rem, 6vw, 5.5rem);
+  --text-display-lh: 1.05;
+  --text-display-ls: -0.03em;
+
+  --text-heading: clamp(1.5rem, 3vw, 2.5rem);
+  --text-heading-lh: 1.15;
+  --text-heading-ls: -0.02em;
+
+  --text-subheading: 1.125rem;
+  --text-body: 0.9375rem;
+  --text-body-lh: 1.7;
+
+  --text-small: 0.8125rem;
+  --text-meta: 0.6875rem;
+  --text-meta-ls: 0.08em;
+
+  /* ---- Spacing ---- */
+  --space-xs: 0.25rem;
+  --space-sm: 0.5rem;
+  --space-md: 1rem;
+  --space-lg: 1.5rem;
+  --space-xl: 2.5rem;
+  --space-2xl: 4rem;
+  --space-3xl: 6rem;
+  --space-4xl: 8rem;
+
+  --section-gap: clamp(5rem, 10vw, 8rem);
+
+  /* ---- Layout ---- */
+  --layout-max: 1140px;
+  --layout-wide: 1320px;
+  --layout-narrow: 640px;
+  --layout-gutter: clamp(1.5rem, 5vw, 5rem);
+
+  /* ---- Borders ---- */
+  --border-width: 1px;
+  --border-color: var(--color-border);
+  --radius-sm: 2px;
+  --radius-md: 3px;
+
+  /* ---- Motion ---- */
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+  --duration-fast: 150ms;
+  --duration-normal: 300ms;
+  --duration-slow: 500ms;
+
+  /* ---- Z-Index ---- */
+  --z-nav: 50;
+  --z-modal: 100;
+  --z-progress: 60;
+}
+
+/* ============================================
+   THEME 02 — Warm Light (Cannoli Cream)
+   ============================================ */
+[data-theme="02"] {
+  --color-background: #F0EFE2;
+  --color-surface: #E5E4D7;
+  --color-surface-hover: #D9D8CB;
+  --color-text: #3A3D3B;
+  --color-heading: #2A4A3A;
+  --color-muted: #6B7E72;
+  --color-border: #C5C4B7;
+  --color-border-hover: #A5A498;
+  --color-accent: #B00149;
+  --color-structural: #387B54;
+  --color-selection-bg: #387B54;
+  --color-selection-fg: #F0EFE2;
+}
+
+/* ============================================
+   THEME 03 — Pigeon
+   ============================================ */
+[data-theme="03"] {
+  --color-background: #1A1C1A;
+  --color-surface: #242624;
+  --color-surface-hover: #2E302E;
+  --color-text: #A9AFAA;
+  --color-heading: #E0E3E0;
+  --color-muted: #6A6E6B;
+  --color-border: #333633;
+  --color-border-hover: #444744;
+  --color-accent: #BADF30;
+  --color-structural: #F5BEC7;
+  --color-selection-bg: #F5BEC7;
+  --color-selection-fg: #1A1C1A;
+}
+
+/* ============================================
+   THEME 04 — Poseidon (Deep Blue)
+   ============================================ */
+[data-theme="04"] {
+  --color-background: #0C1A28;
+  --color-surface: #132236;
+  --color-surface-hover: #1A2E44;
+  --color-text: #93ADC2;
+  --color-heading: #D4E4F0;
+  --color-muted: #4D7A9A;
+  --color-border: #1E3550;
+  --color-border-hover: #2A4A68;
+  --color-accent: #C34121;
+  --color-structural: #4CA5C7;
+  --color-selection-bg: #4CA5C7;
+  --color-selection-fg: #0C1A28;
+}
+
+/* ============================================
+   THEME 05 — Windsor Wine (Warm Dark)
+   ============================================ */
+[data-theme="05"] {
+  --color-background: #1A1214;
+  --color-surface: #241A1E;
+  --color-surface-hover: #2E2226;
+  --color-text: #BFA8AD;
+  --color-heading: #EFE0CD;
+  --color-muted: #7A5F6A;
+  --color-border: #3A262E;
+  --color-border-hover: #4A3640;
+  --color-accent: #997B38;
+  --color-structural: #997B38;
+  --color-selection-bg: #582B36;
+  --color-selection-fg: #EFE0CD;
+}
+
+/* ============================================
+   THEME 06 — Original Light (Basil)
+   ============================================ */
+[data-theme="06"] {
+  --color-background: #F6F4EF;
+  --color-surface: #EDEAE3;
+  --color-surface-hover: #E2DFD8;
+  --color-text: #3D2E23;
+  --color-heading: #54392D;
+  --color-muted: #8A7E74;
+  --color-border: #D4CFCA;
+  --color-border-hover: #B8B3AE;
+  --color-accent: #F2013F;
+  --color-structural: #879F84;
+  --color-selection-bg: #879F84;
+  --color-selection-fg: #F6F4EF;
+}

@@ -8,29 +8,24 @@ export default function Skills() {
     const inView = useInView(ref, { once: true, margin: '-80px' });
 
     return (
-        <section id="skills" ref={ref} className="py-10">
-            <div className="container-main px-6">
-                <SectionHeader title="Skills" />
+        <section id="systems" ref={ref} className="section">
+            <div className="layout-main">
+                <SectionHeader title="Systems & Skills" number={siteData.sections.systems.number} />
 
-                <div className="mt-6 space-y-6">
-                    {siteData.skills.map((group, i) => (
+                <div className="disciplines-list">
+                    {siteData.skillGroups.map((group, i) => (
                         <motion.div
-                            key={group.group}
-                            initial={{ opacity: 0, y: 10 }}
+                            key={group.category}
+                            initial={{ opacity: 0, y: 8 }}
                             animate={inView ? { opacity: 1, y: 0 } : {}}
-                            transition={{ delay: i * 0.08, duration: 0.4 }}
+                            transition={{ delay: i * 0.05, duration: 0.4 }}
+                            className="discipline"
                         >
-                            <h3 className="text-sm font-medium text-muted mb-3">{group.group}</h3>
-                            <div className="flex flex-wrap gap-2">
-                                {group.items.map(skill => (
-                                    <span
-                                        key={skill}
-                                        className="px-3 py-1.5 text-sm rounded-md bg-surface border border-border text-foreground hover:border-muted transition-colors cursor-default"
-                                    >
-                                        {skill}
-                                    </span>
-                                ))}
-                            </div>
+                            <span className="discipline__number">{String(i + 1).padStart(2, '0')}</span>
+                            <span className="discipline__title">{group.category}</span>
+                            <span className="discipline__items">
+                                {group.items.join(' · ')}
+                            </span>
                         </motion.div>
                     ))}
                 </div>

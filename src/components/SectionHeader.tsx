@@ -2,18 +2,22 @@ import { motion } from 'framer-motion';
 
 interface Props {
     title: string;
+    number: string;
 }
 
-export default function SectionHeader({ title }: Props) {
+export default function SectionHeader({ title, number }: Props) {
     return (
-        <motion.h2
-            initial={{ opacity: 0, y: 10 }}
-            whileInView={{ opacity: 1, y: 0 }}
+        <motion.div
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
             viewport={{ once: true }}
-            transition={{ duration: 0.4 }}
-            className="text-2xl font-bold tracking-tight mb-2"
+            transition={{ duration: 0.5 }}
+            className="section-marker"
         >
-            {title}
-        </motion.h2>
+            <span className="section-marker__label">
+                {title} / {number}
+            </span>
+            <div className="section-marker__rule" />
+        </motion.div>
     );
 }

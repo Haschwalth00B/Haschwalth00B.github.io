@@ -30,21 +30,18 @@ export default function ScrollProgress() {
     const scrollToTop = () => {
         window.scrollTo({ top: 0, behavior: 'smooth' });
         gtag('event', 'back_to_top_click', { event_category: 'engagement' });
-
     };
 
     return (
         <>
-            {/* Scroll progress bar */}
-            <div className="fixed top-0 left-0 right-0 z-[60] h-[2px] bg-transparent">
+            {/* Scroll progress bar — 1px accent line */}
+            <div className="scroll-progress">
                 <motion.div
-
-                    className="h-full bg-accent"
+                    className="scroll-progress__bar"
                     style={{ width: `${scrollProgress}%` }}
                     transition={{ duration: 0.1 }}
                 />
             </div>
-
 
             {/* Back to top button */}
             <AnimatePresence>
@@ -54,14 +51,13 @@ export default function ScrollProgress() {
                         animate={{ opacity: 1, y: 0 }}
                         exit={{ opacity: 0, y: 10 }}
                         onClick={scrollToTop}
-                        className="fixed bottom-6 right-6 z-50 w-10 h-10 rounded-md bg-surface border border-border flex items-center justify-center text-muted hover:text-accent hover:border-accent transition-colors shadow-lg"
+                        className="back-to-top"
                         title="Back to top"
                     >
-                        <ArrowUp className="w-4 h-4" />
+                        <ArrowUp size={14} />
                     </motion.button>
                 )}
             </AnimatePresence>
         </>
     );
 }
-

@@ -11,32 +11,42 @@
 
     gtag('config', 'G-Z5KL1PKZ37');
   </script>
+  <!-- GitHub Pages SPA redirect restore script -->
+  <script>
+    (function () {
+      var redirect = window.location.search.match(/([?&])p=([^&]*)/);
+      if (redirect) {
+        var path = decodeURIComponent(redirect[2]);
+        window.history.replaceState(null, null, path);
+      }
+    })();
+  </script>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Srivatsa S Poojari | Portfolio</title>
+  <title>Srivatsa S Poojari — Systems & Infrastructure</title>
   <meta name="description"
-    content="Portfolio of Srivatsa S Poojari, a BCA student at Dr. NSAM First Grade College passionate about homelabs, networking, self-hosting, and infrastructure automation." />
+    content="Srivatsa S Poojari — building and operating real Linux infrastructure. NixOS, networking, containers, automation." />
   <meta name="author" content="Srivatsa S Poojari" />
   <meta name="keywords"
-    content="Srivatsa, Srivatsa S Poojari, portfolio, BCA student, Nitte, homelab, networking, self-hosting, Proxmox, Docker, Linux, Arch Linux, infrastructure, DevOps, privacy, open-source, Udupi" />
+    content="Srivatsa, Srivatsa S Poojari, portfolio, BCA student, Nitte, homelab, networking, self-hosting, Proxmox, Docker, Linux, NixOS, infrastructure, DevOps, automation" />
   <meta name="robots" content="index, follow" />
-  <meta name="theme-color" content="#0a0a0f" />
+  <meta name="theme-color" content="#F6F4EF" />
   <link rel="icon" href="/favicon.ico" />
 
   <!-- Open Graph -->
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://haschwalth00b.github.io/" />
-  <meta property="og:title" content="Srivatsa S Poojari | BCA Student & Homelab Enthusiast" />
+  <meta property="og:title" content="Srivatsa S Poojari — Systems & Infrastructure" />
   <meta property="og:description"
-    content="BCA student passionate about homelabs, networking, and self-hosting. I build systems, break things, and optimize networks." />
+    content="Building and operating real Linux infrastructure — NixOS servers, self-hosted services, and network engineering." />
   <meta property="og:image" content="https://avatars.githubusercontent.com/u/139664261?v=4" />
   <meta property="og:locale" content="en_IN" />
 
   <!-- Twitter -->
   <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="Srivatsa S Poojari | BCA Student & Homelab Enthusiast" />
+  <meta name="twitter:title" content="Srivatsa S Poojari — Systems & Infrastructure" />
   <meta name="twitter:description"
-    content="BCA student passionate about homelabs, networking, and self-hosting solutions." />
+    content="Building and operating real Linux infrastructure — NixOS, networking, containers." />
   <meta name="twitter:image" content="https://avatars.githubusercontent.com/u/139664261?v=4" />
 
   <link rel="canonical" href="https://haschwalth00b.github.io/" />
@@ -49,7 +59,7 @@
       "name": "Srivatsa S Poojari",
       "url": "https://haschwalth00b.github.io",
       "jobTitle": "BCA Student",
-      "description": "Homelab enthusiast and infrastructure tinkerer passionate about self-hosting, networking, and automation.",
+      "description": "Infrastructure engineer and homelab enthusiast building real Linux systems — NixOS, networking, containers, and automation.",
       "address": {
         "@type": "PostalAddress",
         "addressLocality": "Udupi",
@@ -68,11 +78,11 @@
     }
     </script>
 
-  <!-- Fonts -->
+  <!-- Fonts: Instrument Serif (display) + Inter (body) + IBM Plex Mono (metadata) -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link
-    href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;700&display=swap"
+    href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Instrument+Serif&family=Inter:wght@400;500;600;700&display=swap"
     rel="stylesheet" />
 
   <style>
@@ -80,8 +90,8 @@
       position: absolute;
       top: -40px;
       left: 0;
-      background: #00d9ff;
-      color: #0a0a0f;
+      background: #F2013F;
+      color: #F6F4EF;
       padding: 8px 16px;
       z-index: 100;
       font-weight: bold;

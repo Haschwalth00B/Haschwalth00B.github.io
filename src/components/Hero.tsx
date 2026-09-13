@@ -1,11 +1,14 @@
-
 import { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Github, Linkedin, Mail, Instagram, Film, Download, Check } from 'lucide-react';
+import { Github, Linkedin, Mail, ArrowUpRight, Film } from 'lucide-react';
 import { siteData } from '../data/siteData';
 
-const iconMap: Record<string, React.ElementType> = { github: Github, linkedin: Linkedin, mail: Mail, instagram: Instagram, film: Film };
-
+const iconMap: Record<string, React.ElementType> = {
+    github: Github,
+    linkedin: Linkedin,
+    mail: Mail,
+    film: Film,
+};
 
 export default function Hero() {
     const [downloaded, setDownloaded] = useState(false);
@@ -13,126 +16,130 @@ export default function Hero() {
     const handleDownload = () => {
         setDownloaded(true);
         setTimeout(() => setDownloaded(false), 2000);
-        gtag('event', 'resume_download', { event_category: 'engagement' });
+        if (typeof gtag === 'function') {
+            gtag('event', 'resume_download', { event_category: 'engagement' });
+        }
     };
 
     return (
-        <section id="home" className="pt-20 pb-10">
-            <div className="container-main px-6">
-                {/* Banner image — links to Art Institute of Chicago page for Nighthawks (1942) */}
+        <section className="hero" id="home">
+            <div className="layout-main" style={{ position: 'relative', zIndex: 1 }}>
+                {/* Top Identity Header */}
                 <motion.div
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    transition={{ duration: 0.6 }}
-                    className="rounded-lg overflow-hidden mb-6 aspect-[3/1] bg-surface"
-                >
-                    <a
-                        href="https://www.artic.edu/artworks/111628/nighthawks"
-                        target="_blank"
-                        rel="noopener noreferrer"
-
-                    >
-                        <img
-                            src="/images/banner.jpg"
-                            alt="Nighthawks (1942) by Edward Hopper"
-                            className="w-full h-full object-cover"
-                            onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }}
-                        />
-                    </a>
-                </motion.div>
-
-                {/* Name + Role row */}
-                <motion.div
-                    initial={{ opacity: 0, y: 10 }}
+                    initial={{ opacity: 0, y: -8 }}
                     animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 0.2 }}
-                    className="mb-4"
+                    transition={{ duration: 0.5 }}
+                    className="hero__topbar"
                 >
-                    <h1 className="text-3xl sm:text-4xl font-bold tracking-tight">
-                        {siteData.hero.displayName}
-                    </h1>
-                    <p className="text-muted mt-1">{siteData.hero.subtitle}</p>
-                </motion.div>
+                    <div className="hero__identity">
+                        <span className="hero__name">{siteData.fullName}</span>
+                        <span className="hero__role-badge">LINUX SYSTEMS · INFRASTRUCTURE · NETWORKING</span>
+                    </div>
 
-                {/* Social icons row */}
-                <motion.div
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    transition={{ delay: 0.3 }}
-                    className="flex items-center gap-3 mb-5"
-                >
-                    {siteData.socials.map(s => {
-                        const Icon = iconMap[s.icon] || Mail;
-                        return (
-                            <a
-                                key={s.name}
-                                href={s.url}
-                                target="_blank"
-                                rel="noopener noreferrer"
-
-                                className="text-muted hover:text-foreground transition-colors"
-                                title={s.name}
-                                onClick={() => gtag('event', 'social_click', {
-                                    event_category: 'engagement',
-                                    platform: s.name,
-                                    location: 'hero',
-                                })}
-                            >
-                                <Icon className="w-[18px] h-[18px]" />
-                            </a>
-                        );
-                    })}
-                </motion.div>
-
-                {/* Bio + metadata row */}
-                <motion.div
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    transition={{ delay: 0.4 }}
-
-                    className="flex items-start justify-between gap-6"
-                >
-                    <p className="text-muted leading-relaxed max-w-md">
-
-                        {siteData.hero.bio}
-                    </p>
-                    <div className="text-right text-sm text-muted shrink-0 hidden sm:block">
-                        <p>{new Date().toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: true })}</p>
-
-                        <p className="mt-0.5">{siteData.location}</p>
+                    <div className="hero__location">
+                        <span>{siteData.location}</span>
+                        <span className="hero__timezone">BCA 2024–2027</span>
                     </div>
                 </motion.div>
 
-                {/* Resume button */}
-                {siteData.hero.hasResume && (
+                {/* Primary Natural Headline Statement */}
+                <motion.h1
+                    initial={{ opacity: 0, y: 15 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.7, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
+                    className="hero__headline"
+                >
+                    {siteData.hero.statement}
+                </motion.h1>
+
+                {/* Asymmetric Editorial Grid */}
+                <div className="hero__grid">
+                    {/* Left Column: Technical Descriptor & Brief Supporting Line */}
                     <motion.div
-                        initial={{ opacity: 0 }}
-                        animate={{ opacity: 1 }}
-                        transition={{ delay: 0.5 }}
-                        className="mt-5"
+                        initial={{ opacity: 0, y: 15 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.6, delay: 0.25 }}
+                        className="hero__col-main"
                     >
-                        <a
-                            href={siteData.hero.resumeUrl}
-                            download
-                            onClick={handleDownload}
-                            className="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium bg-accent text-background rounded-md hover:bg-accent/90 transition-colors"
-                        >
-                            {downloaded ? (
-                                <>
-                                    <Check className="w-4 h-4" />
-                                    Downloaded
-                                </>
-                            ) : (
-                                <>
-                                    <Download className="w-4 h-4" />
-                                    Resume
-                                </>
+                        <p className="hero__subtitle">
+                            {siteData.hero.descriptor}
+                        </p>
+                        <p className="hero__bio">
+                            {siteData.hero.bio}
+                        </p>
+
+                        <div className="hero__actions">
+                            <div className="hero__socials">
+                                {siteData.socials.map(s => {
+                                    const Icon = iconMap[s.icon] || Mail;
+                                    return (
+                                        <a
+                                            key={s.name}
+                                            href={s.url}
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                            className="hero__social-link"
+                                            title={s.name}
+                                            onClick={() => {
+                                                if (typeof gtag === 'function') {
+                                                    gtag('event', 'social_click', {
+                                                        event_category: 'engagement',
+                                                        platform: s.name,
+                                                        location: 'hero',
+                                                    });
+                                                }
+                                            }}
+                                        >
+                                            <Icon size={16} />
+                                        </a>
+                                    );
+                                })}
+                            </div>
+
+                            {siteData.hero.hasResume && (
+                                <a
+                                    href={siteData.hero.resumeUrl}
+                                    download
+                                    onClick={handleDownload}
+                                    className="hero__resume"
+                                >
+                                    {downloaded ? 'Downloaded' : 'Resume'}
+                                    <ArrowUpRight size={13} />
+                                </a>
                             )}
-                        </a>
+                        </div>
                     </motion.div>
-                )}
+
+                    {/* Right Column: Key Focus Areas (Direct from Resume) */}
+                    <motion.div
+                        initial={{ opacity: 0, y: 15 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.6, delay: 0.35 }}
+                        className="hero__col-meta"
+                    >
+                        <div className="hero__meta-card">
+                            <div className="hero__meta-item">
+                                <span className="hero__meta-key">CURRENT FOCUS</span>
+                                <span className="hero__meta-val">Multi-region network fabric (Containerlab + FRRouting)</span>
+                            </div>
+                            <div className="hero__meta-item">
+                                <span className="hero__meta-key">DECLARATIVE INFRASTRUCTURE</span>
+                                <span className="hero__meta-val">NixOS Flakes + Home Manager (14 modules)</span>
+                            </div>
+                            <div className="hero__meta-item">
+                                <span className="hero__meta-key">EDUCATION</span>
+                                <span className="hero__meta-val">BCA · NSAM First Grade College (GPA 7.9/10)</span>
+                            </div>
+                            <div className="hero__meta-item">
+                                <span className="hero__meta-key">CERTIFICATION GOAL</span>
+                                <span className="hero__meta-val">AWS Certified CloudOps Engineer – Associate</span>
+                            </div>
+                        </div>
+                    </motion.div>
+                </div>
             </div>
+
+            <div className="hero__divider" aria-hidden="true" />
         </section>
     );
 }
-

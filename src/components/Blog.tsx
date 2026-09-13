@@ -1,56 +1,80 @@
- import { useRef, useState, useEffect } from 'react';
+import { useRef, useState, useEffect } from 'react';
 import { motion, useInView, AnimatePresence } from 'framer-motion';
-import { Calendar, ArrowRight, X, BookOpen } from 'lucide-react';
+import { X, ArrowUpRight } from 'lucide-react';
 import Markdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import SectionHeader from './SectionHeader';
+import { siteData } from '../data/siteData';
 
 import haClusterRaw from '../../content/blog/ha-cluster-blog-post.md?raw';
 
-interface BlogPost {
+interface NotePost {
     slug: string;
     title: string;
     date: string;
     content: string;
+    excerpt: string;
 }
 
-function parseFrontmatter(raw: string): BlogPost {
-    const match = raw.match(/^---\n([\s\S]*?)\n---\n([\s\S]*)$/);
-    if (!match) return { slug: '', title: 'Untitled', date: '', content: raw };
-    const meta: Record<string, string> = {};
+// Clean frontmatter parser supporting CRLF and stripping YAML frontmatter completely
+function parseFrontmatter(raw: string): NotePost {
+    const normalized = raw.replace(/\r\n/g, '\n');
+    const match = normalized.match(/^---\n([\s\S]*?)\n---\n?([\s\S]*)$/);
 
+    if (!match) {
+        return {
+            slug: 'note',
+            title: 'Untitled Note',
+            date: '',
+            content: normalized,
+            excerpt: normalized.slice(0, 150),
+        };
+    }
+
+    const meta: Record<string, string> = {};
     match[1].split('\n').forEach(line => {
-        const [k, ...v] = line.split(':');
-        if (k && v.length) meta[k.trim()] = v.join(':').trim().replace(/^['"]|['"]$/g, '');
+        const colonIdx = line.indexOf(':');
+        if (colonIdx !== -1) {
+            const key = line.slice(0, colonIdx).trim();
+            const val = line.slice(colonIdx + 1).trim().replace(/^['"]|['"]$/g, '');
+            if (key) meta[key] = val;
+        }
     });
+
+    let body = match[2].trim();
+
+    // Strip duplicate H1 heading matching title if present
+    if (meta.title) {
+        const titleRegex = new RegExp(`^#\\s+${meta.title.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}\\s*\\n+`, 'i');
+        body = body.replace(titleRegex, '');
+    }
+
+    // Extract first non-heading paragraph for excerpt
+    const paragraphs = body
+        .split('\n\n')
+        .map(p => p.trim())
+        .filter(p => p.length > 0 && !p.startsWith('#') && !p.startsWith('!['))
+    const firstPara = paragraphs[0] || '';
+    const excerpt = firstPara.length > 180 ? firstPara.slice(0, 180).trim() + '…' : firstPara;
+
     return {
-        slug: meta.title?.toLowerCase().replace(/\s+/g, '-') || '',
-        title: meta.title || 'Untitled',
+        slug: meta.title?.toLowerCase().replace(/[^\w\s-]/g, '').replace(/\s+/g, '-') || 'note',
+        title: meta.title || 'Untitled Note',
         date: meta.date || '',
-        content: match[2],
+        content: body,
+        excerpt,
     };
 }
 
-
-function truncateAtWord(text: string, maxLength: number): string {
-    if (text.length <= maxLength) return text;
-    const truncated = text.slice(0, maxLength);
-    const lastSpace = truncated.lastIndexOf(' ');
-    if (lastSpace === -1) return truncated + '…';
-    return truncated.slice(0, lastSpace) + '…';
-}
-
-const posts: BlogPost[] = [parseFrontmatter(haClusterRaw)];
+const notesList: NotePost[] = [parseFrontmatter(haClusterRaw)];
 
 export default function Blog() {
     const ref = useRef(null);
     const inView = useInView(ref, { once: true, margin: '-80px' });
-    const [selected, setSelected] = useState<BlogPost | null>(null);
+    const [selected, setSelected] = useState<NotePost | null>(null);
 
-    // Lock body scroll when modal is open
     useEffect(() => {
         if (selected) {
-
             document.body.style.overflow = 'hidden';
         } else {
             document.body.style.overflow = '';
@@ -58,78 +82,71 @@ export default function Blog() {
         return () => { document.body.style.overflow = ''; };
     }, [selected]);
 
-    const handleOpenPost = (post: BlogPost) => {
-        setSelected(post);
-        gtag('event', 'blog_post_read', {
-            event_category: 'engagement',
-            blog_title: post.title,
-            blog_slug: post.slug,
-        });
+    const handleOpen = (note: NotePost) => {
+        setSelected(note);
+        if (typeof gtag === 'function') {
+            gtag('event', 'blog_post_read', {
+                event_category: 'engagement',
+                blog_title: note.title,
+                blog_slug: note.slug,
+            });
+        }
     };
 
     return (
-        <section id="blog" ref={ref} className="py-10">
-            <div className="container-main px-6">
-                <SectionHeader title="Blog" />
+        <section id="notes" ref={ref} className="section">
+            <div className="layout-main">
+                <SectionHeader title="Notes" number={siteData.sections.notes.number} />
 
-                {posts.length === 0 ? (
-                    <div className="mt-6 text-center py-10">
-                        <BookOpen className="w-8 h-8 text-muted mx-auto mb-3" />
-                        <p className="text-muted text-sm">Posts coming soon.</p>
-                    </div>
-                ) : (
-                    <div className="mt-6 space-y-0">
-                        {posts.map((post, i) => (
-                            <motion.button
-                                key={post.slug}
-                                initial={{ opacity: 0, y: 10 }}
-                                animate={inView ? { opacity: 1, y: 0 } : {}}
-                                transition={{ delay: i * 0.08, duration: 0.4 }}
-                                onClick={() => handleOpenPost(post)}
-                                className="w-full text-left py-4 border-b border-border hover:bg-surface/50 transition-colors group"
-                            >
-                                <div className="flex items-center gap-2 text-xs text-muted mb-1 font-mono">
-                                    <Calendar className="w-3 h-3" />
-                                    {post.date}
+                <div className="notes-archive">
+                    {notesList.map((note, i) => (
+                        <motion.article
+                            key={note.slug}
+                            initial={{ opacity: 0, y: 10 }}
+                            animate={inView ? { opacity: 1, y: 0 } : {}}
+                            transition={{ delay: i * 0.08, duration: 0.4 }}
+                            onClick={() => handleOpen(note)}
+                            className="notes-item"
+                        >
+                            <div className="notes-item__header">
+                                <span className="notes-item__date">{note.date}</span>
+                                <div className="notes-item__rule" />
+                                <span className="notes-item__tag">ENGINEERING NOTE</span>
+                            </div>
+
+                            <div className="notes-item__body">
+                                <h3 className="notes-item__title">{note.title}</h3>
+                                <p className="notes-item__excerpt">{note.excerpt}</p>
+
+                                <div className="notes-item__action">
+                                    <span>Read Note</span>
+                                    <ArrowUpRight size={13} />
                                 </div>
-                                <h3 className="font-semibold text-accent group-hover:underline underline-offset-2 mb-1">
-                                    {post.title}
-                                </h3>
-                                <p className="text-muted text-sm line-clamp-2">
-                                    {truncateAtWord(post.content.replace(/^#.*\n*/gm, ''), 150)}
-                                </p>
-                                <span className="text-accent text-xs flex items-center gap-1 mt-2 group-hover:gap-2 transition-all">
-
-                                    Read more <ArrowRight className="w-3 h-3" />
-                                </span>
-                            </motion.button>
-                        ))}
-                    </div>
-                )}
+                            </div>
+                        </motion.article>
+                    ))}
+                </div>
             </div>
 
-            {/* Blog modal */}
+            {/* Note Reader Modal */}
             <AnimatePresence>
                 {selected && (
                     <motion.div
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
                         exit={{ opacity: 0 }}
-
-                        className="fixed inset-0 z-50 overflow-y-auto"
+                        className="blog-modal"
                         onClick={() => setSelected(null)}
                     >
-                        <div className="absolute inset-0 bg-background/95" />
-                        <div className="relative min-h-full flex flex-col items-center px-4 sm:px-6 py-6 sm:pt-20 sm:pb-20">
-                            {/* Sticky close button — always reachable */}
-                            <div className="sticky top-0 z-10 w-full max-w-3xl flex justify-end pb-2 pt-2">
+                        <div className="blog-modal__backdrop" />
+                        <div className="blog-modal__container">
+                            <div className="blog-modal__close-row">
                                 <button
                                     onClick={(e) => { e.stopPropagation(); setSelected(null); }}
-                                    className="flex items-center justify-center w-9 h-9 rounded-md bg-surface border border-border text-muted hover:text-foreground hover:border-muted transition-colors"
-                                    title="Close"
-
+                                    className="blog-modal__close"
+                                    title="Close note"
                                 >
-                                    <X className="w-5 h-5" />
+                                    <X size={16} />
                                 </button>
                             </div>
 
@@ -138,14 +155,17 @@ export default function Blog() {
                                 animate={{ opacity: 1, y: 0 }}
                                 exit={{ opacity: 0, y: 20 }}
                                 onClick={e => e.stopPropagation()}
-                                className="relative bg-surface border border-border rounded-lg p-5 sm:p-8 max-w-3xl w-full"
+                                className="blog-modal__content"
                             >
-                                <div className="flex items-center gap-2 text-xs text-muted mb-4 font-mono">
-                                    <Calendar className="w-3 h-3" />
-                                    {selected.date}
-                                </div>
+                                <header className="note-reader__header">
+                                    <div className="note-reader__meta">
+                                        <span className="meta">{selected.date}</span>
+                                        <span className="meta"> · ENGINEERING NOTE</span>
+                                    </div>
+                                    <h1 className="note-reader__title">{selected.title}</h1>
+                                </header>
 
-                                <div className="prose max-w-none">
+                                <div className="prose">
                                     <Markdown remarkPlugins={[remarkGfm]}>{selected.content}</Markdown>
                                 </div>
                             </motion.div>
@@ -156,4 +176,3 @@ export default function Blog() {
         </section>
     );
 }
-

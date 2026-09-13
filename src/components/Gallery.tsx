@@ -8,8 +8,7 @@
 
 import { useRef, useState, useEffect, useCallback } from 'react';
 import { motion, useInView, AnimatePresence } from 'framer-motion';
-import { X, ChevronLeft, ChevronRight, ImageIcon } from 'lucide-react';
-import SectionHeader from './SectionHeader';
+import { X, ChevronLeft, ChevronRight } from 'lucide-react';
 
 const imageModules = import.meta.glob<string>(
     '/src/assets/gallery/*.{jpg,jpeg,png,webp,gif}',
@@ -33,16 +32,17 @@ export default function Gallery() {
 
     const openLightbox = (index: number) => {
         setLightboxIndex(index);
-        gtag('event', 'gallery_image_open', {
-            event_category: 'engagement',
-            image_name: images[index].name,
-            image_index: index + 1,
-            total_images: images.length,
-        });
+        if (typeof gtag === 'function') {
+            gtag('event', 'gallery_image_open', {
+                event_category: 'engagement',
+                image_name: images[index].name,
+                image_index: index + 1,
+                total_images: images.length,
+            });
+        }
     };
 
     const closeLightbox = () => setLightboxIndex(null);
-
 
     const goNext = useCallback(() => {
         if (lightboxIndex === null) return;
@@ -69,32 +69,20 @@ export default function Gallery() {
 
         return () => {
             document.body.style.overflow = '';
-
             window.removeEventListener('keydown', onKey);
         };
     }, [lightboxIndex, goNext, goPrev]);
 
+    // If no images, render nothing
     if (images.length === 0) {
-        return (
-            <section id="gallery" ref={ref} className="py-10">
-                <div className="container-main px-6">
-                    <SectionHeader title="Gallery" />
-                    <div className="mt-6 text-center py-10">
-                        <ImageIcon className="w-8 h-8 text-muted mx-auto mb-3" />
-                        <p className="text-muted text-sm">Photos coming soon.</p>
-                    </div>
-                </div>
-            </section>
-        );
+        return null;
     }
 
     return (
-        <section id="gallery" ref={ref} className="py-10">
-            <div className="container-main px-6">
-                <SectionHeader title="Gallery" />
-
+        <section id="gallery" ref={ref} className="section">
+            <div className="layout-main">
                 {/* Masonry grid */}
-                <div className="masonry mt-6">
+                <div className="masonry">
                     {images.map((img, i) => (
                         <motion.div
                             key={img.src}
@@ -105,12 +93,11 @@ export default function Gallery() {
                         >
                             <button
                                 onClick={() => openLightbox(i)}
-                                className="w-full rounded-lg overflow-hidden border border-border hover:border-muted transition-colors cursor-zoom-in block"
+                                style={{ width: '100%', display: 'block', background: 'none', border: 'none', padding: 0, cursor: 'zoom-in' }}
                             >
                                 <img
                                     src={img.src}
                                     alt={img.name}
-                                    className="w-full h-auto object-cover"
                                     loading="lazy"
                                 />
                             </button>
@@ -123,35 +110,31 @@ export default function Gallery() {
             <AnimatePresence>
                 {lightboxIndex !== null && (
                     <motion.div
-
                         initial={{ opacity: 0 }}
-
                         animate={{ opacity: 1 }}
-
                         exit={{ opacity: 0 }}
-                        className="fixed inset-0 z-[100] flex items-center justify-center"
+                        className="lightbox"
                         onClick={closeLightbox}
                     >
-                        <div className="absolute inset-0 bg-background/95 backdrop-blur-sm" />
+                        <div className="lightbox__backdrop" />
 
                         {/* Close button */}
                         <button
                             onClick={closeLightbox}
-                            className="absolute top-4 right-4 z-10 w-10 h-10 rounded-md bg-surface border border-border flex items-center justify-center text-muted hover:text-foreground hover:border-muted transition-colors"
+                            className="lightbox__btn lightbox__btn--close"
                             title="Close (Esc)"
                         >
-                            <X className="w-5 h-5" />
+                            <X size={16} />
                         </button>
 
                         {/* Previous button */}
-
                         {images.length > 1 && (
                             <button
                                 onClick={(e) => { e.stopPropagation(); goPrev(); }}
-                                className="absolute left-4 z-10 w-10 h-10 rounded-md bg-surface border border-border flex items-center justify-center text-muted hover:text-foreground hover:border-muted transition-colors"
+                                className="lightbox__btn lightbox__btn--prev"
                                 title="Previous (←)"
                             >
-                                <ChevronLeft className="w-5 h-5" />
+                                <ChevronLeft size={16} />
                             </button>
                         )}
 
@@ -159,10 +142,10 @@ export default function Gallery() {
                         {images.length > 1 && (
                             <button
                                 onClick={(e) => { e.stopPropagation(); goNext(); }}
-                                className="absolute right-4 z-10 w-10 h-10 rounded-md bg-surface border border-border flex items-center justify-center text-muted hover:text-foreground hover:border-muted transition-colors"
+                                className="lightbox__btn lightbox__btn--next"
                                 title="Next (→)"
                             >
-                                <ChevronRight className="w-5 h-5" />
+                                <ChevronRight size={16} />
                             </button>
                         )}
 
@@ -176,11 +159,11 @@ export default function Gallery() {
                             src={images[lightboxIndex].src}
                             alt={images[lightboxIndex].name}
                             onClick={(e) => e.stopPropagation()}
-                            className="relative max-w-[90vw] max-h-[85vh] object-contain rounded-lg"
+                            className="lightbox__image"
                         />
 
                         {/* Counter */}
-                        <div className="absolute bottom-4 left-1/2 -translate-x-1/2 text-sm text-muted font-mono">
+                        <div className="lightbox__counter">
                             {lightboxIndex + 1} / {images.length}
                         </div>
                     </motion.div>
@@ -189,4 +172,3 @@ export default function Gallery() {
         </section>
     );
 }
-

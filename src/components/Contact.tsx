@@ -1,8 +1,6 @@
 import { useRef, useState } from 'react';
 import { motion, useInView } from 'framer-motion';
-import { Mail, MapPin, Clock, CheckCircle } from 'lucide-react';
 import { siteData } from '../data/siteData';
-
 import SectionHeader from './SectionHeader';
 
 export default function Contact() {
@@ -14,56 +12,66 @@ export default function Contact() {
         navigator.clipboard.writeText(siteData.contact.email);
         setCopied(true);
         setTimeout(() => setCopied(false), 2000);
-        gtag('event', 'email_copy', { event_category: 'engagement' });
+        if (typeof gtag === 'function') {
+            gtag('event', 'email_copy', { event_category: 'engagement' });
+        }
     };
 
     return (
-        <section id="contact" ref={ref} className="py-10">
-            <div className="container-main px-6">
-                <SectionHeader title="Contact" />
+        <section id="contact" ref={ref} className="section">
+            <div className="layout-main">
+                <SectionHeader title="Contact" number={siteData.sections.contact.number} />
 
                 <motion.div
                     initial={{ opacity: 0 }}
                     animate={inView ? { opacity: 1 } : {}}
                     transition={{ duration: 0.5 }}
-                    className="mt-4 space-y-6"
                 >
-                    <p className="text-muted">{siteData.contact.description}</p>
-
-                    {/* Email */}
-                    <button
-                        onClick={copyEmail}
-                        className="flex items-center gap-3 group cursor-pointer"
-                    >
-                        <Mail className="w-4 h-4 text-muted" />
-                        <span className="text-accent hover:underline underline-offset-2">{siteData.contact.email}</span>
-                        {copied ? (
-
-                            <CheckCircle className="w-4 h-4 text-green" />
-                        ) : (
-                            <span className="text-xs text-muted opacity-0 group-hover:opacity-100 transition-opacity">click to copy</span>
-                        )}
+                    {/* Email as primary element */}
+                    <button onClick={copyEmail} className="contact__email" title="Click to copy email">
+                        {siteData.contact.email}
                     </button>
 
+                    {copied && (
+                        <p className="contact__copied">Copied to clipboard</p>
+                    )}
 
-                    {/* Location & timezone */}
+                    {!copied && (
+                        <p className="meta" style={{ marginTop: 'var(--space-sm)' }}>Click to copy</p>
+                    )}
 
-                    <div className="flex items-center gap-6 text-sm text-muted">
-                        <span className="flex items-center gap-1.5">
-                            <MapPin className="w-3.5 h-3.5" />
-                            {siteData.location}
-                        </span>
-                        <span className="flex items-center gap-1.5">
-                            <Clock className="w-3.5 h-3.5" />
-                            {siteData.timezone}
-                        </span>
-
+                    {/* Social links as text */}
+                    <div className="contact__socials">
+                        {siteData.socials.map(s => (
+                            <a
+                                key={s.name}
+                                href={s.url}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="contact__social-link"
+                                onClick={() => {
+                                    if (typeof gtag === 'function') {
+                                        gtag('event', 'social_click', {
+                                            event_category: 'engagement',
+                                            platform: s.name,
+                                            location: 'contact',
+                                        });
+                                    }
+                                }}
+                            >
+                                {s.name}
+                            </a>
+                        ))}
                     </div>
 
-                    <p className="text-sm text-muted">{siteData.contact.responseTime}</p>
+                    {/* Location */}
+                    <div className="contact__meta">
+                        <span>{siteData.location}</span>
+                        <span>{siteData.timezone}</span>
+                        <span>{siteData.contact.responseTime}</span>
+                    </div>
                 </motion.div>
             </div>
         </section>
     );
 }
-

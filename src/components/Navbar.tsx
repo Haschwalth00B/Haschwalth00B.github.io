@@ -1,13 +1,12 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { X, Menu, Command } from 'lucide-react';
+import { X, Menu } from 'lucide-react';
 import { siteData } from '../data/siteData';
-import { openCommandPalette } from '../lib/commandPaletteEvents';
 
 export default function Navbar() {
     const [scrolled, setScrolled] = useState(false);
     const [mobileOpen, setMobileOpen] = useState(false);
-    const [active, setActive] = useState('home');
+    const [active, setActive] = useState('');
 
     useEffect(() => {
         const onScroll = () => {
@@ -15,7 +14,7 @@ export default function Navbar() {
             const ids = siteData.nav.map(n => n.href.replace('#', ''));
             for (const id of [...ids].reverse()) {
                 const el = document.getElementById(id);
-                if (el && el.getBoundingClientRect().top <= 150) {
+                if (el && el.getBoundingClientRect().top <= 160) {
                     setActive(id);
                     break;
                 }
@@ -30,54 +29,49 @@ export default function Navbar() {
         document.querySelector(href)?.scrollIntoView({ behavior: 'smooth' });
     };
 
+    useEffect(() => {
+        if (mobileOpen) {
+            document.body.style.overflow = 'hidden';
+        } else {
+            document.body.style.overflow = '';
+        }
+        return () => { document.body.style.overflow = ''; };
+    }, [mobileOpen]);
+
     return (
         <>
-            <nav
-                className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${scrolled ? 'bg-background/95 backdrop-blur-sm border-b border-border' : 'bg-transparent'
-                    }`}
-            >
-                <div className="container-main px-6">
-                    <div className="flex items-center justify-between h-14">
-                        {/* Logo */}
+            <nav className={`nav ${scrolled ? 'nav--scrolled' : ''}`}>
+                <div className="layout-main">
+                    <div className="nav__inner">
                         <a
-                            href="#home"
-                            onClick={e => { e.preventDefault(); scrollTo('#home'); }}
-                            className="font-bold text-lg tracking-tight hover:text-accent transition-colors"
+                            href="#"
+                            onClick={e => { e.preventDefault(); window.scrollTo({ top: 0, behavior: 'smooth' }); }}
+                            className="nav__logo"
                         >
-                            {siteData.name}<span className="text-accent">.</span>
+                            {siteData.name}
                         </a>
 
-                        {/* Desktop nav */}
-                        <div className="hidden md:flex items-center gap-5">
+                        {/* Tiny Desktop Navigation */}
+                        <div className="nav__links">
                             {siteData.nav.map(item => (
                                 <a
                                     key={item.label}
                                     href={item.href}
                                     onClick={e => { e.preventDefault(); scrollTo(item.href); }}
-                                    className={`text-sm transition-colors duration-200 ${active === item.href.replace('#', '') ? 'text-foreground' : 'text-muted hover:text-foreground'
-                                        }`}
+                                    className={`nav__link ${active === item.href.replace('#', '') ? 'nav__link--active' : ''}`}
                                 >
                                     {item.label}
                                 </a>
                             ))}
-
-                            {/* Cmd+K hint */}
-                            <button
-                                onClick={openCommandPalette}
-                                className="flex items-center gap-1 px-2 py-1 text-xs text-muted border border-border rounded hover:border-muted transition-colors"
-                                title="Command palette (Ctrl+K)"
-                            >
-                                <Command className="w-3 h-3" />
-                                <span className="font-mono">K</span>
-                            </button>
                         </div>
 
                         {/* Mobile toggle */}
                         <button
                             onClick={() => setMobileOpen(!mobileOpen)}
-                            className="md:hidden text-muted hover:text-foreground transition-colors"
+                            className="nav__mobile-toggle"
+                            aria-label={mobileOpen ? 'Close menu' : 'Open menu'}
                         >
-                            {mobileOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
+                            {mobileOpen ? <X size={18} /> : <Menu size={18} />}
                         </button>
                     </div>
                 </div>
@@ -90,24 +84,20 @@ export default function Navbar() {
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
                         exit={{ opacity: 0 }}
-                        className="fixed inset-0 z-40 md:hidden"
+                        transition={{ duration: 0.2 }}
+                        className="mobile-menu"
                     >
-                        <div className="absolute inset-0 bg-background/98" />
-                        <div className="relative pt-20 px-6">
-                            <div className="flex flex-col gap-1">
-                                {siteData.nav.map(item => (
-                                    <a
-                                        key={item.label}
-                                        href={item.href}
-                                        onClick={e => { e.preventDefault(); scrollTo(item.href); }}
-                                        className={`text-lg py-3 border-b border-border transition-colors ${active === item.href.replace('#', '') ? 'text-accent' : 'text-foreground hover:text-accent'
-                                            }`}
-                                    >
-                                        {item.label}
-                                    </a>
-                                ))}
-                            </div>
-                        </div>
+                        {siteData.nav.map((item, i) => (
+                            <a
+                                key={item.label}
+                                href={item.href}
+                                onClick={e => { e.preventDefault(); scrollTo(item.href); }}
+                                className="mobile-menu__link"
+                            >
+                                <span className="mobile-menu__number">{String(i + 1).padStart(2, '0')}</span>
+                                <span className="mobile-menu__label">{item.label}</span>
+                            </a>
+                        ))}
                     </motion.div>
                 )}
             </AnimatePresence>
