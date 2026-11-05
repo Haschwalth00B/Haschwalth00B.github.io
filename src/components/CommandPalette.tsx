@@ -1,5 +1,4 @@
 import { useState, useEffect } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
 import { siteData } from '../data/siteData';
 import { onCommandPaletteToggle } from '../lib/commandPaletteEvents';
 
@@ -70,58 +69,45 @@ export default function CommandPalette() {
         item.action();
     };
 
-    return (
-        <AnimatePresence>
-            {open && (
-                <motion.div
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    exit={{ opacity: 0 }}
-                    className="cmd-overlay"
-                    onClick={() => setOpen(false)}
-                >
-                    <div className="cmd-backdrop" />
-                    <motion.div
-                        initial={{ opacity: 0, y: -10, scale: 0.98 }}
-                        animate={{ opacity: 1, y: 0, scale: 1 }}
-                        exit={{ opacity: 0, y: -10, scale: 0.98 }}
-                        onClick={e => e.stopPropagation()}
-                        className="cmd-panel"
-                    >
-                        {/* Search input */}
-                        <div className="cmd-input-row">
-                            <span className="cmd-input-row__prompt">›</span>
-                            <input
-                                type="text"
-                                value={query}
-                                onChange={e => setQuery(e.target.value)}
-                                placeholder="Type a command..."
-                                autoFocus
-                                className="cmd-input"
-                            />
-                            <kbd className="cmd-kbd">esc</kbd>
-                        </div>
+    // Opened from the keyboard, so it appears and disappears instantly: no animation.
+    if (!open) return null;
 
-                        {/* Results */}
-                        <div className="cmd-results">
-                            {filtered.length === 0 ? (
-                                <p className="cmd-empty">No results found.</p>
-                            ) : (
-                                filtered.map(item => (
-                                    <button
-                                        key={item.label}
-                                        onClick={() => handleSelect(item)}
-                                        className="cmd-item"
-                                    >
-                                        <span className="cmd-item__label">{item.label}</span>
-                                        <span className="cmd-item__type">{item.type}</span>
-                                    </button>
-                                ))
-                            )}
-                        </div>
-                    </motion.div>
-                </motion.div>
-            )}
-        </AnimatePresence>
+    return (
+        <div className="cmd-overlay" onClick={() => setOpen(false)}>
+            <div className="cmd-backdrop" />
+            <div onClick={e => e.stopPropagation()} className="cmd-panel">
+                {/* Search input */}
+                <div className="cmd-input-row">
+                    <span className="cmd-input-row__prompt">›</span>
+                    <input
+                        type="text"
+                        value={query}
+                        onChange={e => setQuery(e.target.value)}
+                        placeholder="Type a command..."
+                        autoFocus
+                        className="cmd-input"
+                    />
+                    <kbd className="cmd-kbd">esc</kbd>
+                </div>
+
+                {/* Results */}
+                <div className="cmd-results">
+                    {filtered.length === 0 ? (
+                        <p className="cmd-empty">No results found.</p>
+                    ) : (
+                        filtered.map(item => (
+                            <button
+                                key={item.label}
+                                onClick={() => handleSelect(item)}
+                                className="cmd-item"
+                            >
+                                <span className="cmd-item__label">{item.label}</span>
+                                <span className="cmd-item__type">{item.type}</span>
+                            </button>
+                        ))
+                    )}
+                </div>
+            </div>
+        </div>
     );
 }

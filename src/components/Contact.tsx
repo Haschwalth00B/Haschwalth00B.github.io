@@ -1,15 +1,23 @@
-import { useRef, useState } from 'react';
-import { motion, useInView } from 'framer-motion';
+import { useState } from 'react';
+import { ArrowRight, ArrowUpRight, Check, Copy } from 'lucide-react';
 import { siteData } from '../data/siteData';
 import SectionHeader from './SectionHeader';
+import { Rise } from './motion';
+import SocialIcon from './SocialIcon';
+
+const HELLO = `mailto:${siteData.contact.email}?subject=${encodeURIComponent('Hello from your portfolio')}`;
 
 export default function Contact() {
-    const ref = useRef(null);
-    const inView = useInView(ref, { once: true, margin: '-80px' });
     const [copied, setCopied] = useState(false);
 
-    const copyEmail = () => {
-        navigator.clipboard.writeText(siteData.contact.email);
+    const copyEmail = async () => {
+        try {
+            await navigator.clipboard.writeText(siteData.contact.email);
+        } catch {
+            // Clipboard blocked or unavailable: open the email instead of claiming it was copied.
+            window.location.href = HELLO;
+            return;
+        }
         setCopied(true);
         setTimeout(() => setCopied(false), 2000);
         if (typeof gtag === 'function') {
@@ -17,61 +25,62 @@ export default function Contact() {
         }
     };
 
+    const links = siteData.socials.filter(s => s.icon !== 'mail');
+
     return (
-        <section id="contact" ref={ref} className="section">
-            <div className="layout-main">
-                <SectionHeader title="Contact" number={siteData.sections.contact.number} />
+        <section id="contact" className="section contact">
+            <SectionHeader title="Contact" />
 
-                <motion.div
-                    initial={{ opacity: 0 }}
-                    animate={inView ? { opacity: 1 } : {}}
-                    transition={{ duration: 0.5 }}
-                >
-                    {/* Email as primary element */}
-                    <button onClick={copyEmail} className="contact__email" title="Click to copy email">
-                        {siteData.contact.email}
-                    </button>
+            <Rise>
+                <button onClick={copyEmail} className="key contact__email">
+                    <span className="contact__address">{siteData.contact.email}</span>
+                    <span className="contact__copy" aria-live="polite">
+                        <span key={String(copied)} className="swap contact__copy-inner">
+                            {copied ? <Check size={18} aria-hidden="true" /> : <Copy size={18} aria-hidden="true" />}
+                            {copied ? 'Copied' : 'Copy'}
+                        </span>
+                    </span>
+                </button>
+            </Rise>
 
-                    {copied && (
-                        <p className="contact__copied">Copied to clipboard</p>
-                    )}
-
-                    {!copied && (
-                        <p className="meta" style={{ marginTop: 'var(--space-sm)' }}>Click to copy</p>
-                    )}
-
-                    {/* Social links as text */}
-                    <div className="contact__socials">
-                        {siteData.socials.map(s => (
-                            <a
-                                key={s.name}
-                                href={s.url}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="contact__social-link"
-                                onClick={() => {
-                                    if (typeof gtag === 'function') {
-                                        gtag('event', 'social_click', {
-                                            event_category: 'engagement',
-                                            platform: s.name,
-                                            location: 'contact',
-                                        });
-                                    }
-                                }}
-                            >
-                                {s.name}
-                            </a>
-                        ))}
-                    </div>
-
-                    {/* Location */}
-                    <div className="contact__meta">
-                        <span>{siteData.location}</span>
-                        <span>{siteData.timezone}</span>
-                        <span>{siteData.contact.responseTime}</span>
-                    </div>
-                </motion.div>
+            <div className="contact__links">
+                {links.map((s, i) => (
+                    <Rise key={s.name} delay={0.06 * i}>
+                        <a
+                            href={s.url}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="key contact__link"
+                            onClick={() => {
+                                if (typeof gtag === 'function') {
+                                    gtag('event', 'social_click', {
+                                        event_category: 'engagement',
+                                        platform: s.name,
+                                        location: 'contact',
+                                    });
+                                }
+                            }}
+                        >
+                            <SocialIcon icon={s.icon} size={22} />
+                            <span>{s.name}</span>
+                            <ArrowUpRight size={18} aria-hidden="true" />
+                        </a>
+                    </Rise>
+                ))}
             </div>
+
+            <Rise delay={0.1} className="well contact__place">
+                <div className="contact__facts">
+                    <p className="lead">{siteData.location}</p>
+                    <p>{siteData.timezone}. {siteData.contact.responseTime}.</p>
+                </div>
+                <a href={HELLO} className="contact__hello">
+                    <span className="head">Say hello</span>
+                    <span className="key key--solid key--round contact__arrow" aria-hidden="true">
+                        <ArrowRight size={24} />
+                    </span>
+                </a>
+            </Rise>
         </section>
     );
 }

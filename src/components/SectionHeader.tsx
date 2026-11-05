@@ -1,23 +1,22 @@
-import { motion } from 'framer-motion';
+import { Rise } from './motion';
 
 interface Props {
     title: string;
-    number: string;
+    children?: React.ReactNode;
 }
 
-export default function SectionHeader({ title, number }: Props) {
+/** A section's own heading, with an optional sentence beside it. */
+export default function SectionHeader({ title, children }: Props) {
     return (
-        <motion.div
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5 }}
-            className="section-marker"
-        >
-            <span className="section-marker__label">
-                {title} / {number}
-            </span>
-            <div className="section-marker__rule" />
-        </motion.div>
+        <header className="section-head">
+            <Rise>
+                <h2 className="head">{title}</h2>
+            </Rise>
+            {children && (
+                <Rise delay={0.08} className="section-head__text">
+                    {children}
+                </Rise>
+            )}
+        </header>
     );
 }

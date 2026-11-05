@@ -80,7 +80,8 @@ export default function Gallery() {
 
     return (
         <section id="gallery" ref={ref} className="section">
-            <div className="layout-main">
+            <div>
+                <h2 className="head gallery__head">Gallery</h2>
                 {/* Masonry grid */}
                 <div className="masonry">
                     {images.map((img, i) => (
@@ -89,7 +90,7 @@ export default function Gallery() {
                             initial={{ opacity: 0, y: 10 }}
                             animate={inView ? { opacity: 1, y: 0 } : {}}
                             transition={{ delay: i * 0.06, duration: 0.4 }}
-                            className="masonry-item"
+                            className="masonry-item well well--picture"
                         >
                             <button
                                 onClick={() => openLightbox(i)}
