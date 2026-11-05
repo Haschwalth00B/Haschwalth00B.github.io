@@ -30,7 +30,7 @@
   <meta name="keywords"
     content="Srivatsa, Srivatsa S Poojari, portfolio, BCA student, Nitte, homelab, networking, self-hosting, Proxmox, Docker, Linux, NixOS, infrastructure, DevOps, automation" />
   <meta name="robots" content="index, follow" />
-  <meta name="theme-color" content="#F6F4EF" />
+  <meta name="theme-color" content="#E6DBC7" />
   <link rel="icon" href="/favicon.ico" />
 
   <!-- Open Graph -->
@@ -78,28 +78,34 @@
     }
     </script>
 
-  <!-- Fonts: Instrument Serif (display) + Inter (body) + IBM Plex Mono (metadata) -->
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link
-    href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Instrument+Serif&family=Inter:wght@400;500;600;700&display=swap"
-    rel="stylesheet" />
+  <!-- Fonts: Gambarino (display) + General Sans (text) -->
+  <link rel="preconnect" href="https://api.fontshare.com" />
+  <link rel="preconnect" href="https://cdn.fontshare.com" crossorigin />
+  <link href="https://api.fontshare.com/v2/css?f[]=gambarino@400&display=swap" rel="stylesheet" />
+  <link href="https://api.fontshare.com/v2/css?f[]=general-sans@400,500&display=swap" rel="stylesheet" />
 
   <style>
     .skip-link {
       position: absolute;
-      top: -40px;
-      left: 0;
-      background: #F2013F;
-      color: #F6F4EF;
+      top: 8px;
+      left: 8px;
+      background: #062B8A;
+      color: #E6DBC7;
       padding: 8px 16px;
       z-index: 100;
       font-weight: bold;
       text-decoration: none;
+      clip-path: inset(50%);
+      width: 1px;
+      height: 1px;
+      overflow: hidden;
+      white-space: nowrap;
     }
 
     .skip-link:focus {
-      top: 0;
+      clip-path: none;
+      width: auto;
+      height: auto;
     }
   </style>
 </head>

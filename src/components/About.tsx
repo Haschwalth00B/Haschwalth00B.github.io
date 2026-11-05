@@ -1,95 +1,63 @@
-import { useRef } from 'react';
-import { motion, useInView } from 'framer-motion';
 import { ArrowUpRight } from 'lucide-react';
 import { siteData } from '../data/siteData';
 import SectionHeader from './SectionHeader';
+import { Rise, Surface, WellImage } from './motion';
 
 export default function About() {
-    const ref = useRef(null);
-    const inView = useInView(ref, { once: true, margin: '-80px' });
-
     return (
-        <section id="about" ref={ref} className="section">
-            <div className="layout-main">
-                <SectionHeader title="About & Education" number={siteData.sections.about.number} />
+        <section id="about" className="section about">
+            <SectionHeader title="About" />
 
-                <motion.div
-                    initial={{ opacity: 0 }}
-                    animate={inView ? { opacity: 1 } : {}}
-                    transition={{ duration: 0.5 }}
-                >
-                    {/* Summary bio paragraph */}
-                    <p className="body-text" style={{ maxWidth: '65ch', marginBottom: 'var(--space-2xl)', fontSize: '1.05rem', lineHeight: '1.75' }}>
-                        {siteData.about.summary}
-                    </p>
+            <Rise className="about__story">
+                <p>
+                    I&rsquo;m Srivatsa, a BCA student at <mark>Dr. NSAM First Grade College</mark>, Nitte University,
+                    graduating in <mark>2027</mark> with a 7.9 GPA. I live in <mark>Udupi</mark>, on the Karnataka coast.
+                    I came to infrastructure by curiosity: I like figuring out how things work underneath, so I build
+                    the real thing and then break it. At home, a headless <mark>NixOS server</mark> runs 14 purpose-built
+                    modules and more than eight containerized services. On the bench, Containerlab and FRRouting
+                    carry <mark>BGP, OSPF, MPLS and IPsec</mark> across a simulated three-region fabric. I&rsquo;m preparing
+                    for the <mark>AWS Certified CloudOps Engineer – Associate</mark> exam, and I log the films I watch
+                    on <a href={siteData.letterboxd} target="_blank" rel="noopener noreferrer">Letterboxd</a>.{' '}
+                    <a href="#contact" className="about__close">If you have a system worth looking under, write to me.</a>
+                </p>
+            </Rise>
 
-                    {/* Editorial metadata fragments */}
-                    <div className="about-grid" style={{ marginBottom: 'clamp(3rem, 6vh, 4.5rem)' }}>
-                        {siteData.about.fragments.map((fragment, i) => (
-                            <motion.div
-                                key={fragment.label}
-                                initial={{ opacity: 0, y: 8 }}
-                                animate={inView ? { opacity: 1, y: 0 } : {}}
-                                transition={{ delay: i * 0.08, duration: 0.4 }}
-                                style={{ display: 'contents' }}
-                            >
-                                <span className="about-label">{fragment.label}</span>
-                                <p className="about-value">{fragment.value}</p>
-                            </motion.div>
+            <div className="about__lower">
+                <Surface className="surface about__frame">
+                    <figure className="about__figure">
+                        <WellImage
+                            src="/images/plates/malpe.jpg"
+                            alt="Malpe Beach near Udupi: wet sand, low surf and a bank of cloud over the Arabian Sea."
+                            width={1600}
+                            height={1200}
+                        />
+                        <figcaption className="caption">Malpe Beach, Udupi.</figcaption>
+                    </figure>
+                </Surface>
+
+                <div className="about__education">
+                    <Rise><h3 className="lead-head">Education</h3></Rise>
+                    <ol className="education" reversed>
+                        {siteData.education.map((edu, i) => (
+                            <li key={edu.institution}>
+                                <Rise delay={i * 0.07} className="education__row">
+                                    <span className="education__period">{edu.period}</span>
+                                    <div>
+                                        <h4 className="education__degree">{edu.degree}</h4>
+                                        <p>
+                                            <a href={edu.url} target="_blank" rel="noopener noreferrer" className="education__link">
+                                                {edu.institution}
+                                                <ArrowUpRight size={14} aria-hidden="true" />
+                                            </a>
+                                            , {edu.location}. GPA {edu.gpa}.
+                                        </p>
+                                        {edu.coursework && <p className="small-line">{edu.coursework}</p>}
+                                    </div>
+                                </Rise>
+                            </li>
                         ))}
-                    </div>
-
-                    {/* Academic Background & Education Archive */}
-                    <div className="education-section">
-                        <div className="other-projects__header" style={{ marginBottom: 'var(--space-lg)' }}>
-                            <span className="meta">ACADEMIC BACKGROUND & EDUCATION</span>
-                        </div>
-
-                        <div className="education-timeline">
-                            {siteData.education.map((edu, i) => (
-                                <motion.div
-                                    key={edu.institution}
-                                    initial={{ opacity: 0, y: 10 }}
-                                    animate={inView ? { opacity: 1, y: 0 } : {}}
-                                    transition={{ delay: i * 0.08, duration: 0.4 }}
-                                    className="edu-card"
-                                >
-                                    <div className="edu-card__period">
-                                        <span className="edu-card__year">{edu.period}</span>
-                                        <span className="edu-card__status">{edu.status}</span>
-                                    </div>
-
-                                    <div className="edu-card__info">
-                                        <div className="edu-card__title-row">
-                                            <h3 className="edu-card__degree">{edu.degree}</h3>
-                                            {edu.url && (
-                                                <a
-                                                    href={edu.url}
-                                                    target="_blank"
-                                                    rel="noopener noreferrer"
-                                                    className="edu-card__link"
-                                                    title={edu.institution}
-                                                >
-                                                    <ArrowUpRight size={13} />
-                                                </a>
-                                            )}
-                                        </div>
-
-                                        <span className="edu-card__institution">{edu.institution} · {edu.location}</span>
-
-                                        {edu.coursework && (
-                                            <p className="edu-card__desc">Relevant Coursework: {edu.coursework}</p>
-                                        )}
-
-                                        {edu.gpa && (
-                                            <span className="edu-card__gpa">GPA: {edu.gpa}</span>
-                                        )}
-                                    </div>
-                                </motion.div>
-                            ))}
-                        </div>
-                    </div>
-                </motion.div>
+                    </ol>
+                </div>
             </div>
         </section>
     );

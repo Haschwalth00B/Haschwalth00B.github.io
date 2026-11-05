@@ -1,161 +1,136 @@
-import { useRef } from 'react';
-import { motion, useInView } from 'framer-motion';
-import { Github, ArrowUpRight } from 'lucide-react';
+import { ArrowDown, Github, ArrowUpRight } from 'lucide-react';
 import { siteData } from '../data/siteData';
 import SectionHeader from './SectionHeader';
+import { Rise, WellImage } from './motion';
+
+const trackSource = (project: string) => {
+    if (typeof gtag === 'function') {
+        gtag('event', 'github_link_click', { event_category: 'engagement', project_name: project });
+    }
+};
 
 export default function Projects() {
-    const ref = useRef(null);
-    const inView = useInView(ref, { once: true, margin: '-80px' });
-
     return (
-        <section id="work" ref={ref} className="section">
-            <div className="layout-main">
-                <SectionHeader title="Selected Work" number={siteData.sections.work.number} />
+        <section id="work" className="section work">
+            <SectionHeader title="Selected work">
+                <p className="lead">Four systems I built, and what each one taught me.</p>
+            </SectionHeader>
 
-                {/* Featured Projects — Case Study Spreads */}
-                <div className="projects-list">
-                    {siteData.projects.map((project, i) => (
-                        <motion.article
-                            key={project.id}
-                            initial={{ opacity: 0, y: 15 }}
-                            animate={inView ? { opacity: 1, y: 0 } : {}}
-                            transition={{ delay: i * 0.1, duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
-                            className="case-study"
-                        >
-                            <div className="case-study__header">
-                                <span className="case-study__num">
-                                    {String(i + 1).padStart(2, '0')}
-                                </span>
-
-                                <div className="case-study__meta">
-                                    <span className="case-study__period">{project.period}</span>
-                                    <span className="case-study__status">
-                                        <span className="case-study__dot" />
-                                        {project.status}
-                                    </span>
-                                </div>
-                            </div>
-
-                            <div className="case-study__grid">
-                                {/* Case Study Narrative */}
-                                <div className="case-study__content">
-                                    <h3 className="case-study__title">{project.title}</h3>
-                                    <p className="case-study__desc">{project.description}</p>
-
-                                    {/* Implementation Details List */}
-                                    <ul className="case-study__bullets">
-                                        {project.implementationDetails.map((detail, idx) => (
-                                            <li key={idx}>{detail}</li>
-                                        ))}
-                                    </ul>
-
-                                    <div className="case-study__footer">
-                                        <span className="case-study__tech">
-                                            {project.tags.join(' · ')}
-                                        </span>
-
-                                        {project.github && (
-                                            <a
-                                                href={project.github}
-                                                target="_blank"
-                                                rel="noopener noreferrer"
-                                                className="case-study__link"
-                                                onClick={() => {
-                                                    if (typeof gtag === 'function') {
-                                                        gtag('event', 'github_link_click', {
-                                                            event_category: 'engagement',
-                                                            project_name: project.title,
-                                                        });
-                                                    }
-                                                }}
-                                            >
-                                                <Github size={13} />
-                                                Source
-                                                <ArrowUpRight size={11} />
-                                            </a>
-                                        )}
-                                    </div>
-                                </div>
-
-                                {/* Authentic Visual Column: Real Hardware Image or Technical Spec */}
-                                {project.image ? (
-                                    <div className="case-study__visual">
-                                        <div className="case-study__img-wrapper">
-                                            <img
-                                                src={project.image}
-                                                alt={project.title}
-                                                className="case-study__img"
-                                            />
-                                        </div>
-                                        <span className="case-study__caption">
-                                            Fig. {String(i + 1).padStart(2, '0')} — Proxmox VE Lab Hardware Cluster Nodes
-                                        </span>
-                                    </div>
-                                ) : (
-                                    <div className="case-study__spec-box">
-                                        <div className="case-study__spec-inner">
-                                            <span className="case-study__spec-label">SYSTEM ARCHITECTURE</span>
-                                            <div className="case-study__spec-rows">
-                                                <div className="case-study__spec-row">
-                                                    <span>CATEGORY</span>
-                                                    <span>{project.category}</span>
-                                                </div>
-                                                <div className="case-study__spec-row">
-                                                    <span>TIMELINE</span>
-                                                    <span>{project.period}</span>
-                                                </div>
-                                                <div className="case-study__spec-row">
-                                                    <span>STATE</span>
-                                                    <span>{project.status}</span>
-                                                </div>
-                                            </div>
-                                        </div>
+            <div className="work__blocks">
+                {siteData.projects.map((project, i) => (
+                    <article key={project.id} className={`block block--${i % 2 === 0 ? 'left' : 'right'} block--${project.id}`}>
+                        <figure className="block__visual">
+                            <div className="block__stage">
+                                <WellImage
+                                    src={project.visual.src}
+                                    alt={project.visual.alt}
+                                    width={1600}
+                                    height={1200}
+                                    className="block__picture"
+                                />
+                                {project.code && (
+                                    <div className="well block__code" data-ui>
+                                        <p className="block__filename">modules/maintenance.nix</p>
+                                        <pre><code>{project.code}</code></pre>
                                     </div>
                                 )}
                             </div>
-                        </motion.article>
+                            <figcaption className="caption">{project.visual.caption}</figcaption>
+                        </figure>
+
+                        <div className="block__text">
+                            <Rise>
+                                <h3 className="head">{project.title}</h3>
+                                <p className="small-line">{project.kind}. {project.period}. {project.status}.</p>
+                            </Rise>
+                            <Rise delay={0.08} className="figure">
+                                <span className="figure__value">{project.figure.value}</span>
+                                <span className="figure__label">{project.figure.label}</span>
+                            </Rise>
+                            <Rise delay={0.14}>
+                                <p>{project.description}</p>
+                                <p className="block__lesson">{project.lesson}</p>
+                            </Rise>
+                            <Rise delay={0.2}>
+                                <ul className="points">
+                                    {project.implementationDetails.map(item => <li key={item}>{item}</li>)}
+                                </ul>
+                            </Rise>
+                            <Rise delay={0.26} className="block__foot">
+                                <ul className="tags">
+                                    {project.tags.map(tag => <li key={tag}>{tag}</li>)}
+                                </ul>
+                                {project.github && (
+                                    <a
+                                        href={project.github}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        className="key key--small"
+                                        onClick={() => trackSource(project.title)}
+                                    >
+                                        <Github size={16} aria-hidden="true" />
+                                        Source
+                                        <ArrowUpRight size={14} aria-hidden="true" />
+                                    </a>
+                                )}
+                                {project.note && (
+                                    <a href="#notes" className="key key--small">
+                                        <ArrowDown size={16} aria-hidden="true" />
+                                        Read the build note
+                                    </a>
+                                )}
+                            </Rise>
+                        </div>
+                    </article>
+                ))}
+            </div>
+
+            <div className="smaller">
+                <figure className="smaller__clip">
+                    <div className="well well--picture">
+                        <video
+                            autoPlay
+                            muted
+                            loop
+                            playsInline
+                            preload="metadata"
+                            poster="/images/plates/disk-poster.jpg"
+                            width={854}
+                            height={480}
+                            aria-hidden="true"
+                        >
+                            <source src="/video/disk.webm" type="video/webm" />
+                            <source src="/video/disk.mp4" type="video/mp4" />
+                        </video>
+                    </div>
+                    <figcaption className="caption">A hard disk&rsquo;s actuator at work. The backup and disk-alert scripts are for the day it stops.</figcaption>
+                </figure>
+
+                <div className="smaller__list">
+                    <Rise><h3 className="lead-head">Smaller repositories and dotfiles</h3></Rise>
+                    {siteData.otherProjects.map((item, i) => (
+                        <Rise key={item.title} delay={0.08 * (i + 1)} className="smaller__row">
+                            <div>
+                                <h4 className="smaller__title">{item.title}</h4>
+                                <p>{item.desc}</p>
+                                <ul className="tags">
+                                    {item.tags.map(tag => <li key={tag}>{tag}</li>)}
+                                </ul>
+                            </div>
+                            {item.github && (
+                                <a
+                                    href={item.github}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="key key--round"
+                                    aria-label={`Source for ${item.title}`}
+                                    onClick={() => trackSource(item.title)}
+                                >
+                                    <Github size={18} aria-hidden="true" />
+                                </a>
+                            )}
+                        </Rise>
                     ))}
-                </div>
-
-                {/* Secondary Repositories & Dotfiles */}
-                <div className="other-projects">
-                    <div className="other-projects__header">
-                        <span className="meta">SECONDARY REPOSITORIES & DOTFILES</span>
-                    </div>
-
-                    <div className="other-projects__table">
-                        {siteData.otherProjects.map((item, i) => (
-                            <motion.div
-                                key={item.title}
-                                initial={{ opacity: 0 }}
-                                animate={inView ? { opacity: 1 } : {}}
-                                transition={{ delay: (siteData.projects.length + i) * 0.05, duration: 0.4 }}
-                                className="other-projects__row"
-                            >
-                                <span className="other-projects__cat">{item.category}</span>
-                                <div>
-                                    <span className="other-projects__title">{item.title}</span>
-                                    <p className="small-text" style={{ marginTop: '2px' }}>{item.desc}</p>
-                                </div>
-                                <span className="other-projects__tags">{item.tags.join(' · ')}</span>
-
-                                <div className="other-projects__actions">
-                                    {item.github && (
-                                        <a
-                                            href={item.github}
-                                            target="_blank"
-                                            rel="noopener noreferrer"
-                                            className="other-projects__link"
-                                            title="View Source"
-                                        >
-                                            <Github size={13} />
-                                        </a>
-                                    )}
-                                </div>
-                            </motion.div>
-                        ))}
-                    </div>
                 </div>
             </div>
         </section>

@@ -1,10 +1,10 @@
-import { useRef, useState, useEffect } from 'react';
-import { motion, useInView, AnimatePresence } from 'framer-motion';
+import { useState, useEffect, useRef } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import { X, ArrowUpRight } from 'lucide-react';
 import Markdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import SectionHeader from './SectionHeader';
-import { siteData } from '../data/siteData';
+import { Surface, WellImage } from './motion';
 
 import haClusterRaw from '../../content/blog/ha-cluster-blog-post.md?raw';
 
@@ -68,21 +68,32 @@ function parseFrontmatter(raw: string): NotePost {
 
 const notesList: NotePost[] = [parseFrontmatter(haClusterRaw)];
 
+function formatDate(iso: string) {
+    const date = new Date(`${iso}T00:00:00`);
+    if (Number.isNaN(date.getTime())) return iso;
+    return date.toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' });
+}
+
 export default function Blog() {
-    const ref = useRef(null);
-    const inView = useInView(ref, { once: true, margin: '-80px' });
     const [selected, setSelected] = useState<NotePost | null>(null);
+    const opener = useRef<HTMLElement | null>(null);
 
     useEffect(() => {
-        if (selected) {
-            document.body.style.overflow = 'hidden';
-        } else {
+        if (!selected) return;
+        document.body.style.overflow = 'hidden';
+        const onKey = (e: KeyboardEvent) => {
+            if (e.key === 'Escape') setSelected(null);
+        };
+        window.addEventListener('keydown', onKey);
+        return () => {
             document.body.style.overflow = '';
-        }
-        return () => { document.body.style.overflow = ''; };
+            window.removeEventListener('keydown', onKey);
+            opener.current?.focus();
+        };
     }, [selected]);
 
     const handleOpen = (note: NotePost) => {
+        opener.current = document.activeElement as HTMLElement;
         setSelected(note);
         if (typeof gtag === 'function') {
             gtag('event', 'blog_post_read', {
@@ -94,82 +105,66 @@ export default function Blog() {
     };
 
     return (
-        <section id="notes" ref={ref} className="section">
-            <div className="layout-main">
-                <SectionHeader title="Notes" number={siteData.sections.notes.number} />
+        <section id="notes" className="section notes">
+            <SectionHeader title="Notes" />
 
-                <div className="notes-archive">
-                    {notesList.map((note, i) => (
-                        <motion.article
-                            key={note.slug}
-                            initial={{ opacity: 0, y: 10 }}
-                            animate={inView ? { opacity: 1, y: 0 } : {}}
-                            transition={{ delay: i * 0.08, duration: 0.4 }}
-                            onClick={() => handleOpen(note)}
-                            className="notes-item"
-                        >
-                            <div className="notes-item__header">
-                                <span className="notes-item__date">{note.date}</span>
-                                <div className="notes-item__rule" />
-                                <span className="notes-item__tag">ENGINEERING NOTE</span>
-                            </div>
+            {notesList.map(note => (
+                <Surface key={note.slug} as="article" className="surface surface--lg note">
+                    <div className="note__text">
+                        <h3 className="head">{note.title}</h3>
+                        <p className="small-line">{formatDate(note.date)}</p>
+                        <p>{note.excerpt}</p>
+                        <button onClick={() => handleOpen(note)} className="key key--solid">
+                            Read the note
+                            <ArrowUpRight size={18} aria-hidden="true" />
+                        </button>
+                    </div>
+                    <WellImage
+                        src="/images/plates/cluster-room.jpg"
+                        alt="The cluster on a long desk in a college classroom, with laptops beside it and a chalkboard behind."
+                        width={1600}
+                        height={1080}
+                        className="note__picture"
+                    />
+                </Surface>
+            ))}
 
-                            <div className="notes-item__body">
-                                <h3 className="notes-item__title">{note.title}</h3>
-                                <p className="notes-item__excerpt">{note.excerpt}</p>
-
-                                <div className="notes-item__action">
-                                    <span>Read Note</span>
-                                    <ArrowUpRight size={13} />
-                                </div>
-                            </div>
-                        </motion.article>
-                    ))}
-                </div>
-            </div>
-
-            {/* Note Reader Modal */}
+            {/* Note reader */}
             <AnimatePresence>
                 {selected && (
                     <motion.div
                         initial={{ opacity: 0 }}
-                        animate={{ opacity: 1 }}
-                        exit={{ opacity: 0 }}
-                        className="blog-modal"
+                        animate={{ opacity: 1, transition: { duration: 0.2 } }}
+                        exit={{ opacity: 0, transition: { duration: 0.15 } }}
+                        className="reader"
+                        role="dialog"
+                        aria-modal="true"
+                        aria-label={selected.title}
                         onClick={() => setSelected(null)}
                     >
-                        <div className="blog-modal__backdrop" />
-                        <div className="blog-modal__container">
-                            <div className="blog-modal__close-row">
-                                <button
-                                    onClick={(e) => { e.stopPropagation(); setSelected(null); }}
-                                    className="blog-modal__close"
-                                    title="Close note"
-                                >
-                                    <X size={16} />
-                                </button>
-                            </div>
-
-                            <motion.div
-                                initial={{ opacity: 0, y: 20 }}
-                                animate={{ opacity: 1, y: 0 }}
-                                exit={{ opacity: 0, y: 20 }}
-                                onClick={e => e.stopPropagation()}
-                                className="blog-modal__content"
+                        <motion.div
+                            initial={{ opacity: 0, transform: 'translateY(16px)' }}
+                            animate={{ opacity: 1, transform: 'translateY(0px)', transition: { duration: 0.28, ease: [0.16, 1, 0.3, 1] } }}
+                            exit={{ opacity: 0, transform: 'translateY(8px)', transition: { duration: 0.15, ease: [0.16, 1, 0.3, 1] } }}
+                            onClick={e => e.stopPropagation()}
+                            className="reader__sheet"
+                        >
+                            <button
+                                onClick={() => setSelected(null)}
+                                className="key key--round reader__close"
+                                aria-label="Close note"
+                                autoFocus
                             >
-                                <header className="note-reader__header">
-                                    <div className="note-reader__meta">
-                                        <span className="meta">{selected.date}</span>
-                                        <span className="meta"> · ENGINEERING NOTE</span>
-                                    </div>
-                                    <h1 className="note-reader__title">{selected.title}</h1>
-                                </header>
-
-                                <div className="prose">
-                                    <Markdown remarkPlugins={[remarkGfm]}>{selected.content}</Markdown>
-                                </div>
-                            </motion.div>
-                        </div>
+                                <X size={20} aria-hidden="true" />
+                            </button>
+                            <header className="reader__head">
+                                <h2 className="head">{selected.title}</h2>
+                                <p className="small-line">{formatDate(selected.date)}</p>
+                            </header>
+                            <div className="prose">
+                                <Markdown remarkPlugins={[remarkGfm]}>{selected.content}</Markdown>
+                            </div>
+                        </motion.div>
                     </motion.div>
                 )}
             </AnimatePresence>
